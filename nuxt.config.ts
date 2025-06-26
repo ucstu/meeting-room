@@ -1,42 +1,22 @@
-// https://nuxt.com/docs/api/configuration/nuxt-config
-
 export default defineNuxtConfig({
-  // https://nuxt.com/modules
+  css: ["~/assets/global.css"],
+  compatibilityDate: "2025-03-01",
+  future: { compatibilityVersion: 4 },
+  hub: {
+    workers: true,
+    database: true,
+  },
   modules: [
-    "@unocss/nuxt",
     "@nuxthub/core",
     "@nuxt/eslint",
     "@nuxt/icon",
+    "@unocss/nuxt",
     "@vueuse/nuxt",
+    "nuxt-security",
   ],
-
-  // https://devtools.nuxt.com
-  devtools: { enabled: true },
-
-  // Global CSS
-  css: ["~/assets/global.css"],
-
-  // Env variables - https://nuxt.com/docs/getting-started/configuration#environment-variables-and-private-tokens
-  runtimeConfig: {
-    public: {
-      // Can be overridden by NUXT_PUBLIC_HELLO_TEXT environment variable
-      helloText: "Hello from the Edge 👋",
-    },
-  },
-  // https://nuxt.com/docs/getting-started/upgrade#testing-nuxt-4
-  future: { compatibilityVersion: 4 },
-  compatibilityDate: "2025-03-01",
-
-  // https://hub.nuxt.com/docs/getting-started/installation#options
-  hub: {},
-
-  // Development config
-  eslint: {
-    config: {
-      stylistic: {
-        quotes: "double",
-        commaDangle: "never",
-      },
+  nitro: {
+    experimental: {
+      websocket: true,
     },
   },
 });

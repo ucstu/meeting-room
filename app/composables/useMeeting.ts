@@ -1,119 +1,252 @@
-import type { ChatMessage, Participant } from "~/types/meeting";
+export function useMeeting(room: MaybeRefOrGetter<string>) {
+  const { send, receive } = useSignal();
 
-export function useMeeting() {
-  // 会议状态
-  const isInMeeting = ref(false);
-  const isMicOn = ref(true);
-  const isCameraOn = ref(true);
-  const isSpeakerOn = ref(true);
+  const roomRef = toRef(room);
+  const members = ref<Record<string, ReturnType<typeof usePeer>>>({});
 
-  // 聊天功能
-  const showChat = ref(false);
-  const chatMessages = ref<ChatMessage[]>([
-    {
-      id: 1,
-      user: "系统",
-      message: "欢迎加入会议室",
-      time: "14:30",
-      type: "system",
-    },
-    { id: 2, user: "张三", message: "大家好！", time: "14:31", type: "user" },
-    { id: 3, user: "李四", message: "下午好~", time: "14:32", type: "user" },
-  ]);
+  // #region 主动联系现房间的人
+  receive((signal) => {
+    if (signal.type === "existing") {
+      signal.members.forEach((member) => {
+        members.value[member] = usePeer(member);
+      });
+    }
+  });
+  // #endregion
 
-  // 参会者列表
-  const participants = ref<Participant[]>([
-    {
-      id: 1,
-      name: "张三",
-      isMicOn: true,
-      isCameraOn: true,
-      avatar: "https://api.dicebear.com/7.x/avataaars/svg?seed=Zhang",
-    },
-    {
-      id: 2,
-      name: "李四",
-      isMicOn: false,
-      isCameraOn: true,
-      avatar: "https://api.dicebear.com/7.x/avataaars/svg?seed=Li",
-    },
-    {
-      id: 3,
-      name: "王五",
-      isMicOn: true,
-      isCameraOn: false,
-      avatar: "https://api.dicebear.com/7.x/avataaars/svg?seed=Wang",
-    },
-    {
-      id: 4,
-      name: "赵六",
-      isMicOn: true,
-      isCameraOn: true,
-      avatar: "https://api.dicebear.com/7.x/avataaars/svg?seed=Zhao",
-    },
-  ]);
+  // #region 主动回复服务器的Ping检测
+  receive((signal) => {
+    if (signal.type === "ping") {
+      send({
+        type: "pong",
+      });
+    }
+  });
+  // #endregion
 
-  // 会议功能
-  const joinMeeting = () => {
-    isInMeeting.value = true;
-  };
+  // #region 主动联系加入房间的人
+  receive((signal) => {
+    if (signal.type === "join") {
+      members.value[signal.from] = usePeer(signal.from);
+    }
+  });
+  // #endregion
 
-  const leaveMeeting = () => {
-    isInMeeting.value = false;
-  };
+  // #region 主动删除离开房间的人
+  receive((signal) => {
+    if (signal.type === "leave") {
+      const peer = members.value[signal.from];
+      if (peer) {
+        peer.close();
+        // eslint-disable-next-line @typescript-eslint/no-dynamic-delete
+        delete members.value[signal.from];
+      }
+    }
+  });
+  // #region
 
-  const toggleMic = () => {
-    isMicOn.value = !isMicOn.value;
-  };
-
-  const toggleCamera = () => {
-    isCameraOn.value = !isCameraOn.value;
-  };
-
-  const toggleSpeaker = () => {
-    isSpeakerOn.value = !isSpeakerOn.value;
-  };
-
-  const toggleChat = () => {
-    showChat.value = !showChat.value;
-  };
-
-  const sendMessage = (message: string) => {
-    chatMessages.value.push({
-      id: Date.now(),
-      user: "我",
-      message,
-      time: new Date().toLocaleTimeString("zh-CN", {
-        hour: "2-digit",
-        minute: "2-digit",
-      }),
-      type: "me",
+  // #region 告知其他人和服务器我的离开和加入房间状态
+  watchImmediate(roomRef, (room, old) => {
+    if (old) {
+      send({
+        type: "leave",
+        room: old,
+      });
+      Object.entries(members.value).forEach(([key, value]) => {
+        value.close();
+        // eslint-disable-next-line @typescript-eslint/no-dynamic-delete
+        delete members.value[key];
+      });
+    }
+    send({
+      type: "join",
+      room,
     });
-  };
-
-  const inviteParticipants = () => {
-    // 邀请参会者逻辑
-    alert("邀请链接已复制到剪贴板");
-  };
+  });
+  // #endregion
 
   return {
-    // 状态
-    isInMeeting,
-    isMicOn,
-    isCameraOn,
-    isSpeakerOn,
-    showChat,
-    chatMessages,
-    participants,
-
-    // 方法
-    joinMeeting,
-    leaveMeeting,
-    toggleMic,
-    toggleCamera,
-    toggleSpeaker,
-    toggleChat,
-    sendMessage,
-    inviteParticipants,
+    members,
   };
 }
+
+export function usePeer(to: string) {
+  const { send, receive } = useSignal();
+
+  const connectionstate = ref();
+  const iceconnectionstate = ref();
+  const icegatheringstate = ref();
+  const signalingstate = ref();
+
+  const peer = new RTCPeerConnection({
+    iceServers: [
+      {
+        urls: "stun:derper.ucstu.com:3478",
+      },
+    ],
+  });
+
+  peer.addEventListener("connectionstatechange", function (event) {
+    console.log(event);
+  });
+
+  peer.addEventListener("iceconnectionstatechange", function (event) {
+    console.log(event);
+  });
+
+  peer.addEventListener("icegatheringstatechange", function (event) {
+    console.log(event);
+  });
+
+  peer.addEventListener("signalingstatechange", function (event) {
+    console.log(event);
+  });
+
+  peer.addEventListener("track", function (event) {
+    console.log(event);
+  });
+
+  peer.addEventListener("datachannel", function (event) {
+    console.log(event);
+  });
+
+  peer.addEventListener("icecandidate", function (event) {
+    const { candidate } = event;
+    if (candidate) {
+      send({
+        type: "ice-candidate",
+        candidate,
+        to,
+      });
+    }
+  });
+
+  // #region 接收对方可访问的ICE候选者
+  receive(async (signal) => {
+    if (signal.type === "ice-candidate") {
+      await peer.addIceCandidate(new RTCIceCandidate(signal.candidate));
+    }
+  });
+  // #endregion
+
+  // #region 接受对方发起的连接请求并回复
+  receive(async (signal) => {
+    if (signal.type === "offer") {
+      peer.setRemoteDescription(new RTCSessionDescription(signal.offer));
+      const answer = await peer.createAnswer();
+      await peer.setLocalDescription(answer);
+      send({
+        type: "answer",
+        answer,
+        to,
+      });
+    }
+  });
+  // #endregion
+
+  // #region 接收对方的连接请求应答
+  receive(async (signal) => {
+    if (signal.type === "answer") {
+      peer.setRemoteDescription(new RTCSessionDescription(signal.answer));
+    }
+  });
+  // #endregion
+
+  // #region 主动向对方发起连接请求
+  peer.createOffer().then(async (offer) => {
+    await peer.setLocalDescription(offer);
+    send({
+      type: "offer",
+      offer,
+      to,
+    });
+  });
+  // #endregion
+
+  function close() {
+    peer.close();
+  }
+
+  // 销毁时自动关闭连接
+  onScopeDispose(close);
+
+  return {
+    connectionstate,
+    iceconnectionstate,
+    icegatheringstate,
+    signalingstate,
+    close,
+  };
+}
+
+type Signal =
+  | {
+      type: "join";
+      from: string;
+      room: string;
+    }
+  | {
+      type: "existing";
+      members: string[];
+    }
+  | {
+      type: "offer";
+      from: string;
+      to: string;
+      offer: RTCSessionDescriptionInit;
+    }
+  | {
+      type: "answer";
+      from: string;
+      to: string;
+      answer: RTCSessionDescriptionInit;
+    }
+  | {
+      type: "ice-candidate";
+      from: string;
+      to: string;
+      candidate: RTCIceCandidateInit;
+    }
+  | {
+      type: "leave";
+      from: string;
+      room: string;
+    }
+  | {
+      type: "ping";
+    }
+  | {
+      type: "pong";
+      from: string;
+    };
+
+type OmitFromUnion<T, K extends PropertyKey> = T extends unknown
+  ? Omit<T, K>
+  : never;
+
+export const useSignal = createGlobalState(function () {
+  const from = useState<string>("signal-from", crypto.randomUUID);
+  const { on, trigger } = createEventHook<Signal>();
+  const { send, status } = useWebSocket("/ws/meeting", {
+    async onMessage(_, event) {
+      trigger(
+        JSON.parse(
+          typeof event.data === "string" ? event.data : await event.data.text()
+        ) as Signal
+      );
+    },
+  });
+
+  return {
+    status,
+    receive: on,
+    send(signal: OmitFromUnion<Signal, "from">) {
+      send(
+        JSON.stringify({
+          ...signal,
+          from: from.value,
+        })
+      );
+    },
+  };
+});
