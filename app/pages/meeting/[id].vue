@@ -22,7 +22,7 @@ const {
   toggleChat,
   sendMessage,
   inviteParticipants,
-} = useMeeting();
+} = useMeeting(() => route.params.id as string);
 
 // 页面加载时自动加入会议
 onMounted(() => {
