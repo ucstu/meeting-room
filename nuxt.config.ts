@@ -1,6 +1,4 @@
 export default defineNuxtConfig({
-  compatibilityDate: "2025-03-01",
-  future: { compatibilityVersion: 4 },
   modules: [
     "@nuxthub/core",
     "@nuxt/eslint",
@@ -9,11 +7,13 @@ export default defineNuxtConfig({
     "@vueuse/nuxt",
     "nuxt-security",
     "nuxt-auth-utils",
-    "shadcn-nuxt",
+    "reka-ui/nuxt",
   ],
+  future: { compatibilityVersion: 4 },
   experimental: {
     typedPages: true,
   },
+  compatibilityDate: "2025-03-01",
   nitro: {
     experimental: {
       websocket: true,
@@ -22,9 +22,5 @@ export default defineNuxtConfig({
   hub: {
     workers: true,
     database: true,
-  },
-  shadcn: {
-    prefix: "",
-    componentDir: "./components/ui",
   },
 });
