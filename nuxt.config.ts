@@ -23,4 +23,8 @@ export default defineNuxtConfig({
     workers: true,
     database: true,
   },
+  shadcn: {
+    prefix: "",
+    componentDir: "./components/ui",
+  },
 });
