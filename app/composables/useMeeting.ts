@@ -14,7 +14,7 @@ export function useMeeting(room: MaybeRefOrGetter<string>) {
   });
   // #endregion
 
-  // #region 主动回复服务器的Ping检测
+  // #region 主动回复服务器的Ping
   receive((signal) => {
     if (signal.type === "ping") {
       send({
@@ -32,7 +32,7 @@ export function useMeeting(room: MaybeRefOrGetter<string>) {
   });
   // #endregion
 
-  // #region 主动删除离开房间的人
+  // #region 主动移除离开房间的人
   receive((signal) => {
     if (signal.type === "leave") {
       const peer = members.value[signal.from];
@@ -86,31 +86,31 @@ export function usePeer(to: string) {
     ],
   });
 
-  peer.addEventListener("connectionstatechange", function (event) {
+  peer.addEventListener("connectionstatechange", (event) => {
     console.log(event);
   });
 
-  peer.addEventListener("iceconnectionstatechange", function (event) {
+  peer.addEventListener("iceconnectionstatechange", (event) => {
     console.log(event);
   });
 
-  peer.addEventListener("icegatheringstatechange", function (event) {
+  peer.addEventListener("icegatheringstatechange", (event) => {
     console.log(event);
   });
 
-  peer.addEventListener("signalingstatechange", function (event) {
+  peer.addEventListener("signalingstatechange", (event) => {
     console.log(event);
   });
 
-  peer.addEventListener("track", function (event) {
+  peer.addEventListener("track", (event) => {
     console.log(event);
   });
 
-  peer.addEventListener("datachannel", function (event) {
+  peer.addEventListener("datachannel", (event) => {
     console.log(event);
   });
 
-  peer.addEventListener("icecandidate", function (event) {
+  peer.addEventListener("icecandidate", (event) => {
     const { candidate } = event;
     if (candidate) {
       send({
@@ -123,7 +123,7 @@ export function usePeer(to: string) {
 
   // #region 接收对方可访问的ICE候选者
   receive(async (signal) => {
-    if (signal.type === "ice-candidate") {
+    if (signal.type === "ice-candidate" && signal.from === to) {
       await peer.addIceCandidate(new RTCIceCandidate(signal.candidate));
     }
   });
@@ -131,7 +131,7 @@ export function usePeer(to: string) {
 
   // #region 接受对方发起的连接请求并回复
   receive(async (signal) => {
-    if (signal.type === "offer") {
+    if (signal.type === "offer" && signal.from === to) {
       peer.setRemoteDescription(new RTCSessionDescription(signal.offer));
       const answer = await peer.createAnswer();
       await peer.setLocalDescription(answer);
@@ -146,7 +146,7 @@ export function usePeer(to: string) {
 
   // #region 接收对方的连接请求应答
   receive(async (signal) => {
-    if (signal.type === "answer") {
+    if (signal.type === "answer" && signal.from === to) {
       peer.setRemoteDescription(new RTCSessionDescription(signal.answer));
     }
   });
@@ -217,15 +217,13 @@ type Signal =
     }
   | {
       type: "pong";
-      from: string;
     };
 
 type OmitFromUnion<T, K extends PropertyKey> = T extends unknown
   ? Omit<T, K>
   : never;
 
-export const useSignal = createGlobalState(function () {
-  const from = useState<string>("signal-from", crypto.randomUUID);
+export const useSignal = createGlobalState(() => {
   const { on, trigger } = createEventHook<Signal>();
   const { send, status } = useWebSocket("/ws/meeting", {
     async onMessage(_, event) {
@@ -241,12 +239,7 @@ export const useSignal = createGlobalState(function () {
     status,
     receive: on,
     send(signal: OmitFromUnion<Signal, "from">) {
-      send(
-        JSON.stringify({
-          ...signal,
-          from: from.value,
-        })
-      );
+      send(JSON.stringify(signal));
     },
   };
 });
