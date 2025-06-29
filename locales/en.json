@@ -1,0 +1,171 @@
+{
+  "common": {
+    "loading": "Loading...",
+    "cancel": "Cancel",
+    "confirm": "Confirm",
+    "save": "Save",
+    "delete": "Delete",
+    "edit": "Edit",
+    "close": "Close",
+    "back": "Back",
+    "next": "Next",
+    "previous": "Previous"
+  },
+  "header": {
+    "title": "Meeting Room",
+    "subtitle": "Connect with your team",
+    "nav": {
+      "home": "Home",
+      "rooms": "Rooms",
+      "profile": "Profile",
+      "newMeeting": "New Meeting"
+    }
+  },
+  "home": {
+    "welcome": "Welcome to Meeting Room",
+    "subtitle": "Connect with your team instantly. Join existing rooms or create your own meeting space.",
+    "buttons": {
+      "createRoom": "Create New Room",
+      "joinWithId": "Join with ID"
+    },
+    "stats": {
+      "totalRooms": "Total Rooms",
+      "activeMeetings": "Active Meetings",
+      "totalParticipants": "Total Participants",
+      "availableSlots": "Available Slots"
+    },
+    "search": {
+      "placeholder": "Search rooms...",
+      "filters": {
+        "allStatus": "All Status",
+        "active": "Active",
+        "waiting": "Waiting",
+        "recent": "Most Recent",
+        "participants": "Most Participants",
+        "name": "Name A-Z"
+      }
+    },
+    "rooms": {
+      "title": "Available Rooms",
+      "found": "{count} rooms found",
+      "noRooms": "No rooms found",
+      "noRoomsDesc": "Try adjusting your search criteria or create a new room.",
+      "createFirst": "Create Your First Room"
+    }
+  },
+  "room": {
+    "status": {
+      "active": "Active",
+      "waiting": "Waiting",
+      "ended": "Ended"
+    },
+    "buttons": {
+      "preview": "Preview",
+      "join": "Join",
+      "full": "Full"
+    }
+  },
+  "meeting": {
+    "backToLobby": "Back to Lobby",
+    "participants": "participants",
+    "meetingId": "Meeting ID",
+    "noSpeaker": "No Speaker",
+    "host": "Host",
+    "participant": "Participant",
+    "chat": {
+      "title": "Meeting Chat",
+      "tabs": {
+        "chat": "Chat",
+        "participants": "People"
+      },
+      "placeholder": "Type a message...",
+      "audioOn": "🎤 Audio",
+      "audioOff": "🔇 Muted",
+      "videoOn": "📹 Video",
+      "videoOff": "📵 Off"
+    }
+  },
+  "auth": {
+    "welcome": "Welcome to Meeting Room",
+    "subtitle": "Connect with people around the world",
+    "githubLogin": "Continue with GitHub",
+    "or": "or",
+    "guestName": "Guest Name",
+    "guestPlaceholder": "Enter your name",
+    "guestLogin": "Continue as Guest",
+    "features": {
+      "hdVideo": "HD Video",
+      "multiUser": "Multi-user",
+      "realTimeChat": "Real-time Chat"
+    },
+    "footer": {
+      "agreement": "By continuing, you agree to our",
+      "terms": "Terms of Service",
+      "privacy": "Privacy Policy"
+    }
+  },
+  "modals": {
+    "createRoom": {
+      "title": "Create New Room",
+      "roomName": "Room Name",
+      "roomNamePlaceholder": "Enter room name",
+      "description": "Description (Optional)",
+      "descriptionPlaceholder": "Brief description of the meeting",
+      "maxParticipants": "Max Participants",
+      "participants5": "5 participants",
+      "participants10": "10 participants",
+      "participants25": "25 participants",
+      "participants50": "50 participants",
+      "create": "Create Room"
+    },
+    "joinRoom": {
+      "title": "Join Room",
+      "roomId": "Room ID",
+      "roomIdPlaceholder": "Enter 6-digit room ID",
+      "join": "Join Room"
+    }
+  },
+  "rooms": {
+    "title": "Room List",
+    "subtitle": "Browse all available meeting rooms, join or create new meetings.",
+    "categories": {
+      "active": "Active",
+      "activeDesc": "Currently ongoing meetings",
+      "scheduled": "Scheduled",
+      "scheduledDesc": "Upcoming scheduled meetings",
+      "recent": "Recent",
+      "recentDesc": "Recently completed meeting records"
+    }
+  },
+  "roomCard": {
+    "status": {
+      "active": "Active",
+      "waiting": "Waiting",
+      "ended": "Ended"
+    },
+    "buttons": {
+      "preview": "Preview",
+      "join": "Join",
+      "full": "Full"
+    }
+  },
+  "createRoom": {
+    "title": "Create New Room",
+    "roomName": "Room Name",
+    "roomNamePlaceholder": "Enter room name",
+    "description": "Description (Optional)",
+    "descriptionPlaceholder": "Brief description of the meeting",
+    "maxParticipants": "Max Participants",
+    "participants5": "5 participants",
+    "participants10": "10 participants",
+    "participants25": "25 participants",
+    "participants50": "50 participants",
+    "create": "Create Room"
+  },
+  "joinRoom": {
+    "title": "Join Room",
+    "roomId": "Room ID",
+    "roomIdPlaceholder": "Enter 6-digit room ID",
+    "join": "Join Room"
+  }
+}

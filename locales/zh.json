@@ -1,0 +1,171 @@
+{
+  "common": {
+    "loading": "加载中...",
+    "cancel": "取消",
+    "confirm": "确认",
+    "save": "保存",
+    "delete": "删除",
+    "edit": "编辑",
+    "close": "关闭",
+    "back": "返回",
+    "next": "下一步",
+    "previous": "上一步"
+  },
+  "header": {
+    "title": "会议室",
+    "subtitle": "与您的团队连接",
+    "nav": {
+      "home": "首页",
+      "rooms": "房间列表",
+      "profile": "个人资料",
+      "newMeeting": "新建会议"
+    }
+  },
+  "home": {
+    "welcome": "欢迎来到会议室",
+    "subtitle": "与您的团队即时连接。加入现有房间或创建您自己的会议空间。",
+    "buttons": {
+      "createRoom": "创建新房间",
+      "joinWithId": "通过ID加入"
+    },
+    "stats": {
+      "totalRooms": "房间总数",
+      "activeMeetings": "活跃会议",
+      "totalParticipants": "参与人数",
+      "availableSlots": "可用席位"
+    },
+    "search": {
+      "placeholder": "搜索房间...",
+      "filters": {
+        "allStatus": "全部状态",
+        "active": "进行中",
+        "waiting": "等待中",
+        "recent": "最新",
+        "participants": "参与人数",
+        "name": "按名称"
+      }
+    },
+    "rooms": {
+      "title": "可用房间",
+      "found": "找到 {count} 个房间",
+      "noRooms": "未找到房间",
+      "noRoomsDesc": "请尝试调整搜索条件或创建新房间。",
+      "createFirst": "创建您的第一个房间"
+    }
+  },
+  "room": {
+    "status": {
+      "active": "进行中",
+      "waiting": "等待中",
+      "ended": "已结束"
+    },
+    "buttons": {
+      "preview": "预览",
+      "join": "加入",
+      "full": "已满"
+    }
+  },
+  "meeting": {
+    "backToLobby": "返回大厅",
+    "participants": "位参与者",
+    "meetingId": "会议 ID",
+    "noSpeaker": "无发言者",
+    "host": "主持人",
+    "participant": "参与者",
+    "chat": {
+      "title": "会议聊天",
+      "tabs": {
+        "chat": "聊天",
+        "participants": "成员"
+      },
+      "placeholder": "输入消息...",
+      "audioOn": "🎤 音频",
+      "audioOff": "🔇 静音",
+      "videoOn": "📹 视频",
+      "videoOff": "📵 关闭"
+    }
+  },
+  "auth": {
+    "welcome": "欢迎来到会议室",
+    "subtitle": "与世界各地的人们连接",
+    "githubLogin": "使用 GitHub 继续",
+    "or": "或",
+    "guestName": "访客姓名",
+    "guestPlaceholder": "输入您的姓名",
+    "guestLogin": "以访客身份继续",
+    "features": {
+      "hdVideo": "高清视频",
+      "multiUser": "多人会议",
+      "realTimeChat": "实时聊天"
+    },
+    "footer": {
+      "agreement": "继续即表示您同意我们的",
+      "terms": "服务条款",
+      "privacy": "隐私政策"
+    }
+  },
+  "modals": {
+    "createRoom": {
+      "title": "创建新房间",
+      "roomName": "房间名称",
+      "roomNamePlaceholder": "输入房间名称",
+      "description": "描述（可选）",
+      "descriptionPlaceholder": "会议的简要描述",
+      "maxParticipants": "最大参与人数",
+      "participants5": "5 人",
+      "participants10": "10 人",
+      "participants25": "25 人",
+      "participants50": "50 人",
+      "create": "创建房间"
+    },
+    "joinRoom": {
+      "title": "加入房间",
+      "roomId": "房间 ID",
+      "roomIdPlaceholder": "输入6位房间ID",
+      "join": "加入房间"
+    }
+  },
+  "rooms": {
+    "title": "房间列表",
+    "subtitle": "浏览所有可用的会议房间，加入或创建新的会议。",
+    "categories": {
+      "active": "进行中",
+      "activeDesc": "当前正在进行的会议",
+      "scheduled": "已安排",
+      "scheduledDesc": "即将开始的预定会议",
+      "recent": "最近结束",
+      "recentDesc": "最近完成的会议记录"
+    }
+  },
+  "roomCard": {
+    "status": {
+      "active": "进行中",
+      "waiting": "等待中",
+      "ended": "已结束"
+    },
+    "buttons": {
+      "preview": "预览",
+      "join": "加入",
+      "full": "已满"
+    }
+  },
+  "createRoom": {
+    "title": "创建新房间",
+    "roomName": "房间名称",
+    "roomNamePlaceholder": "输入房间名称",
+    "description": "描述（可选）",
+    "descriptionPlaceholder": "会议的简要描述",
+    "maxParticipants": "最大参与人数",
+    "participants5": "5 人",
+    "participants10": "10 人",
+    "participants25": "25 人",
+    "participants50": "50 人",
+    "create": "创建房间"
+  },
+  "joinRoom": {
+    "title": "加入房间",
+    "roomId": "房间 ID",
+    "roomIdPlaceholder": "输入6位房间ID",
+    "join": "加入房间"
+  }
+}

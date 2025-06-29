@@ -14,9 +14,11 @@
   },
   "dependencies": {
     "@heroicons/vue": "^2.2.0",
+    "@iconify-json/lucide": "^1.2.53",
     "@nuxt/eslint": "^1.4.1",
     "@nuxt/icon": "1.14.0",
     "@nuxthub/core": "^0.9.0",
+    "@unocss/reset": "^66.3.2",
     "@vueuse/nuxt": "^13.4.0",
     "drizzle-orm": "^0.44.2",
     "nuxt": "^3.17.5",
@@ -28,7 +30,8 @@
   },
   "devDependencies": {
     "@nuxt/eslint-config": "^1.4.1",
-    "@unocss/nuxt": "^66.2.3",
+    "@nuxtjs/i18n": "10.0.0-beta.11",
+    "@unocss/nuxt": "^66.3.2",
     "drizzle-kit": "^0.31.2",
     "eslint": "^9.29.0",
     "typescript": "^5.8.3",
