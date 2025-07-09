@@ -21,11 +21,11 @@ jobs:
           node-version: 22
           cache: "pnpm"
 
-      - name: Ensure NuxtHub module is installed
-        run: pnpx nuxthub@latest ensure
-
       - name: Install dependencies
         run: pnpm install
+
+      - name: Ensure NuxtHub module is installed
+        run: pnpx nuxthub@latest ensure
 
       - name: Build & Deploy to NuxtHub
         uses: nuxt-hub/action@v2
