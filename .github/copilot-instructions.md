@@ -104,6 +104,75 @@ function handleSubmit() {
 - `Label`
 - `Select`
 
+### Available for Installation
+
+All shadcn-vue components are available for use in this project. Key components include:
+
+#### Layout & Navigation
+
+- `Sidebar` - For application navigation and sidebars
+- `Navigation Menu` - For top navigation bars
+- `Breadcrumb` - For page navigation hierarchy
+- `Tabs` - For tabbed interfaces
+- `Menubar` - For menu bars
+- `Separator` - For visual dividers
+
+#### Data Display
+
+- `Table` - For tabular data display
+- `Data Table` - For advanced data tables with sorting/filtering
+- `Avatar` - For user profile images
+- `Badge` - For status indicators and labels
+- `Progress` - For progress indicators
+- `Skeleton` - For loading states
+
+#### Form Controls
+
+- `Checkbox` - For checkboxes
+- `Radio Group` - For radio button groups
+- `Switch` - For toggle switches
+- `Textarea` - For multi-line text input
+- `Number Field` - For numeric input
+- `PIN Input` - For PIN/code input
+- `Tags Input` - For tag selection
+- `Slider` - For range selection
+- `Calendar` - For date selection
+- `Date Picker` - For date/time picking
+- `Range Calendar` - For date range selection
+- `Form` - For form validation and structure
+
+#### Feedback & Interaction
+
+- `Dialog` - For modal dialogs
+- `Sheet` - For slide-out panels
+- `Drawer` - For mobile-friendly drawers
+- `Popover` - For floating content
+- `Tooltip` - For helpful hints
+- `Alert` - For notifications and alerts
+- `Alert Dialog` - For confirmation dialogs
+- `Toast` - For temporary notifications
+- `Sonner` - For toast notifications
+- `Hover Card` - For contextual information
+
+#### Selection & Search
+
+- `Combobox` - For searchable dropdowns
+- `Command` - For command palette interfaces
+- `Dropdown Menu` - For dropdown menus
+- `Context Menu` - For right-click menus
+- `Pagination` - For page navigation
+
+#### Layout Helpers
+
+- `Aspect Ratio` - For maintaining aspect ratios
+- `Scroll Area` - For custom scrollbars
+- `Resizable` - For resizable panels
+- `Carousel` - For image/content carousels
+- `Collapsible` - For expandable content
+- `Toggle` - For toggle buttons
+- `Toggle Group` - For toggle button groups
+- `Stepper` - For step-by-step workflows
+
 ### Installation Command
 
 When suggesting new components, always mention:
@@ -111,6 +180,19 @@ When suggesting new components, always mention:
 ```bash
 pnpm dlx shadcn-vue@latest add <component-name>
 ```
+
+### Recommended Components for Meeting Room Features
+
+For different meeting room management features, prioritize these components:
+
+- **Room Booking Forms**: `Calendar`, `Date Picker`, `Select`, `Form`, `Input`, `Button`
+- **Room Lists**: `Table`, `Data Table`, `Card`, `Badge`, `Avatar`
+- **User Dashboard**: `Tabs`, `Card`, `Progress`, `Badge`, `Separator`
+- **Admin Panel**: `Data Table`, `Dialog`, `Alert Dialog`, `Dropdown Menu`, `Sheet`
+- **Notifications**: `Toast`, `Sonner`, `Alert`, `Badge`
+- **Navigation**: `Sidebar`, `Navigation Menu`, `Breadcrumb`, `Tabs`
+- **Loading States**: `Skeleton`, `Progress`, `Button` (with loading state)
+- **Search & Filters**: `Command`, `Combobox`, `Select`, `Input`
 
 ## Styling Guidelines
 
