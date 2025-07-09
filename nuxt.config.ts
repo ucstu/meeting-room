@@ -13,10 +13,10 @@ export default defineNuxtConfig({
   ],
   css: ["~/assets/css/tailwind.css"],
   future: { compatibilityVersion: 4 },
+  compatibilityDate: "2025-03-01",
   experimental: {
     typedPages: true,
   },
-  compatibilityDate: "2025-03-01",
   nitro: {
     experimental: {
       websocket: true,
@@ -26,6 +26,22 @@ export default defineNuxtConfig({
     plugins: [
       ...(process.env.NODE_ENV === "development" ? [devtoolsJson()] : []),
     ],
+  },
+  security: {
+    headers: {
+      crossOriginEmbedderPolicy: "unsafe-none",
+      contentSecurityPolicy: {
+        "img-src": ["'self'", "data:"],
+        "script-src": [
+          "'self'",
+          "https:",
+          "'unsafe-inline'",
+          "'strict-dynamic'",
+          "'nonce-{{nonce}}'",
+          "'unsafe-eval'",
+        ],
+      },
+    },
   },
   hub: {
     workers: true,
