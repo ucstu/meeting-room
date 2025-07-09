@@ -25,4 +25,7 @@ export default defineNuxtConfig({
     database: true,
     ai: true,
   },
+  shadcn: {
+    prefix: "",
+  },
 });
