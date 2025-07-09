@@ -1,3 +1,5 @@
+import devtoolsJson from "vite-plugin-devtools-json";
+
 export default defineNuxtConfig({
   modules: [
     "@nuxthub/core",
@@ -19,6 +21,11 @@ export default defineNuxtConfig({
     experimental: {
       websocket: true,
     },
+  },
+  vite: {
+    plugins: [
+      ...(process.env.NODE_ENV === "development" ? [devtoolsJson()] : []),
+    ],
   },
   hub: {
     workers: true,
