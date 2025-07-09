@@ -29,37 +29,8 @@ export default defineNuxtConfig({
   },
   security: {
     headers: {
-      crossOriginEmbedderPolicy: "unsafe-none",
-      contentSecurityPolicy: {
-        "img-src": [
-          "'self'",
-          "data:",
-          "blob:",
-          "https:",
-          "*.workers.dev",
-          "*.cloudflare.com",
-        ],
-        "script-src": [
-          "'self'",
-          "https:",
-          "'unsafe-inline'",
-          "'strict-dynamic'",
-          "'nonce-{{nonce}}'",
-          "'unsafe-eval'",
-          "blob:",
-          "*.workers.dev",
-          "*.cloudflare.com",
-        ],
-        "connect-src": [
-          "'self'",
-          "https:",
-          "wss:",
-          "*.workers.dev",
-          "*.cloudflare.com",
-        ],
-        "frame-src": ["'self'", "https:", "*.workers.dev", "*.cloudflare.com"],
-        "worker-src": ["'self'", "blob:", "*.workers.dev"],
-      },
+      crossOriginEmbedderPolicy: false,
+      contentSecurityPolicy: false,
     },
   },
   hub: {
