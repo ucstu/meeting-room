@@ -1,0 +1,1 @@
+npm exec cross-env NODE_OPTIONS="--experimental-strip-types" npm exec lint-staged

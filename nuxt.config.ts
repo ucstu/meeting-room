@@ -3,12 +3,13 @@ export default defineNuxtConfig({
     "@nuxthub/core",
     "@nuxt/eslint",
     "@nuxt/icon",
-    "@unocss/nuxt",
+    "@nuxtjs/tailwindcss",
     "@vueuse/nuxt",
     "nuxt-security",
     "nuxt-auth-utils",
-    "reka-ui/nuxt",
+    "shadcn-nuxt",
   ],
+  css: ["~/assets/css/tailwind.css"],
   future: { compatibilityVersion: 4 },
   experimental: {
     typedPages: true,
@@ -22,5 +23,6 @@ export default defineNuxtConfig({
   hub: {
     workers: true,
     database: true,
+    ai: true,
   },
 });

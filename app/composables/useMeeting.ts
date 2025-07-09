@@ -229,8 +229,8 @@ export const useSignal = createGlobalState(() => {
     async onMessage(_, event) {
       trigger(
         JSON.parse(
-          typeof event.data === "string" ? event.data : await event.data.text()
-        ) as Signal
+          typeof event.data === "string" ? event.data : await event.data.text(),
+        ) as Signal,
       );
     },
   });
