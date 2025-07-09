@@ -1,4 +1,8 @@
 <script lang="ts" setup>
+definePageMeta({
+  auth: false,
+});
+
 useHead({
   title: "隐私政策 - Meeting Room",
   meta: [
