@@ -191,10 +191,10 @@
 4. **配置环境变量**
 
    ```sh
-   cp .env.example .env
+   cp .env.example .env.local
    ```
 
-   编辑 `.env` 文件，填入您的配置：
+   编辑 `.env.local` 文件，填入您的配置：
 
    ```env
    NUXT_OAUTH_GITHUB_CLIENT_ID=your_github_client_id
