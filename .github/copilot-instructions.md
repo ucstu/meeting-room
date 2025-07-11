@@ -2,19 +2,21 @@
 
 ## Project Overview
 
-This is a **Meeting Room Management System** built with Nuxt.js 3, using GitHub OAuth authentication and shadcn-vue components. The system allows users to book and manage meeting rooms.
+This is an **Online Meeting Management System** (在线会议管理系统) built with Nuxt.js 3, using GitHub OAuth authentication and shadcn-vue components. The system is a modern remote collaboration platform designed for online meetings, providing meeting scheduling, team management, and participant link distribution.
 
 ## Technology Stack & Preferences
 
 ### Core Technologies
 
-- **Framework**: Nuxt.js 3 (Vue.js)
-- **TypeScript**: Always use TypeScript
+- **Framework**: Nuxt.js 3 (Vue.js) - Full-stack framework
+- **TypeScript**: Always use TypeScript for type safety
 - **UI Components**: shadcn-vue (auto-imported)
-- **Styling**: Tailwind CSS
-- **Authentication**: GitHub OAuth
-- **Database**: Drizzle ORM
+- **Styling**: Tailwind CSS - Utility-first CSS framework
+- **Authentication**: GitHub OAuth via nuxt-auth-utils
+- **Database**: Drizzle ORM with SQLite
+- **Deployment**: Cloudflare platform
 - **Package Manager**: pnpm
+- **Icons**: Lucide Icons
 
 ### Code Style Preferences
 
@@ -102,7 +104,7 @@ function handleSubmit() {
 - `Card`, `CardContent`, `CardDescription`, `CardHeader`, `CardTitle`
 - `Input`
 - `Label`
-- `Select`
+- `Select`, `SelectContent`, `SelectItem`, `SelectTrigger`, `SelectValue`
 
 ### Available for Installation
 
@@ -181,33 +183,69 @@ When suggesting new components, always mention:
 pnpm dlx shadcn-vue@latest add <component-name>
 ```
 
-### Recommended Components for Meeting Room Features
+### Recommended Components for Meeting Management Features
 
-For different meeting room management features, prioritize these components:
+For different online meeting management features, prioritize these components:
 
-- **Room Booking Forms**: `Calendar`, `Date Picker`, `Select`, `Form`, `Input`, `Button`
-- **Room Lists**: `Table`, `Data Table`, `Card`, `Badge`, `Avatar`
-- **User Dashboard**: `Tabs`, `Card`, `Progress`, `Badge`, `Separator`
+#### 📅 Meeting Scheduling & Calendar
+
+- **Meeting Creation**: `Calendar`, `Date Picker`, `Range Calendar`, `Time Picker`, `Form`, `Input`, `Textarea`
+- **Recurring Meetings**: `Checkbox`, `Radio Group`, `Select`, `Switch`
+- **Meeting Details**: `Card`, `Input`, `Textarea`, `Select`, `Combobox`
+
+#### 👥 Team Management
+
+- **Team Creation**: `Form`, `Input`, `Textarea`, `Avatar`, `Badge`
+- **Member Management**: `Data Table`, `Avatar`, `Badge`, `Dropdown Menu`, `Dialog`
+- **Role Assignment**: `Select`, `Badge`, `Toggle Group`, `Alert Dialog`
+- **Member Invitations**: `Dialog`, `Input`, `Button`, `Alert`
+
+#### 🏠 Dashboard & Analytics
+
+- **Personal Dashboard**: `Tabs`, `Card`, `Progress`, `Badge`, `Separator`, `Chart`
+- **Meeting Statistics**: `Progress`, `Badge`, `Card`, `Data Table`
+- **Calendar Views**: `Calendar`, `Tabs`, `Card`, `Badge`
+
+#### 🔍 Search & Filtering
+
+- **Meeting Search**: `Command`, `Combobox`, `Input`, `Badge`
+- **Advanced Filters**: `Popover`, `Checkbox`, `Select`, `Date Picker`
+- **Quick Actions**: `Command`, `Dialog`, `Sheet`
+
+#### ⚙️ Admin & Settings
+
 - **Admin Panel**: `Data Table`, `Dialog`, `Alert Dialog`, `Dropdown Menu`, `Sheet`
-- **Notifications**: `Toast`, `Sonner`, `Alert`, `Badge`
-- **Navigation**: `Sidebar`, `Navigation Menu`, `Breadcrumb`, `Tabs`
-- **Loading States**: `Skeleton`, `Progress`, `Button` (with loading state)
-- **Search & Filters**: `Command`, `Combobox`, `Select`, `Input`
+- **System Settings**: `Form`, `Switch`, `Select`, `Input`, `Separator`
+- **User Management**: `Data Table`, `Avatar`, `Badge`, `Dialog`
+
+#### 📱 Mobile & Responsive
+
+- **Mobile Navigation**: `Sheet`, `Drawer`, `Navigation Menu`
+- **Mobile Forms**: `Dialog`, `Sheet`, `Input`, `Button`
+- **Touch-friendly**: `Card`, `Button`, `Badge`
+
+#### 🔔 Notifications & Alerts
+
+- **Real-time Notifications**: `Toast`, `Sonner`, `Alert`, `Badge`
+- **System Messages**: `Alert`, `Alert Dialog`, `Card`
+- **Status Updates**: `Badge`, `Progress`, `Alert`
 
 ## Styling Guidelines
 
 ### Preferred Classes
 
-- **Layout**: `min-h-screen`, `container mx-auto`, `px-4 py-8`
-- **Spacing**: `space-y-4`, `space-x-4`, `mb-4`, `mt-2`
+- **Layout**: `min-h-screen`, `container mx-auto`, `px-4 py-8`, `max-w-4xl`
+- **Spacing**: `space-y-4`, `space-x-4`, `mb-4`, `mt-2`, `gap-4`
 - **Colors**: `bg-background`, `text-foreground`, `text-muted-foreground`, `text-primary`
-- **Typography**: `text-2xl font-bold`, `text-sm text-muted-foreground`
+- **Typography**: `text-2xl font-bold`, `text-sm text-muted-foreground`, `text-4xl font-bold tracking-tight`
+- **Interactive**: `hover:text-primary`, `underline`, `cursor-pointer`
 
 ### Responsive Design
 
 - Use mobile-first approach
 - Apply responsive prefixes: `sm:`, `md:`, `lg:`, `xl:`
 - Test across different screen sizes
+- Consider touch interfaces for mobile
 
 ## Navigation & Routing
 
@@ -222,6 +260,7 @@ For different meeting room management features, prioritize these components:
 - Pages in `app/pages/` directory
 - Use file-based routing
 - Dynamic routes with `[param].vue` syntax
+- Auth pages like `/auth`, `/terms`, `/privacy`
 
 ## Authentication Patterns
 
@@ -235,10 +274,20 @@ definePageMeta({
 </script>
 ```
 
+### Public Pages
+
+```vue
+<script lang="ts" setup>
+definePageMeta({
+  auth: false,
+});
+</script>
+```
+
 ### GitHub OAuth
 
 - Login redirect: `/auth/github`
-- Use server-side session management
+- Use nuxt-auth-utils for session management
 - Check auth state with composables
 
 ## API Integration
@@ -271,11 +320,12 @@ function handleError(error: any) {
 - Define schemas in `server/database/schema.ts`
 - Use typed queries
 - Handle database connections properly
+- SQLite as database engine
 
 ### Common Queries
 
 ```typescript
-// Example meeting room query
+// Example meeting query
 const meetings = await db
   .select()
   .from(meetingsTable)
@@ -414,6 +464,23 @@ function validateForm() {
 </script>
 ```
 
+### Back Navigation
+
+```vue
+<script lang="ts" setup>
+function goBack() {
+  window.history.back();
+}
+</script>
+
+<template>
+  <Button variant="ghost" size="sm" @click="goBack">
+    <icon name="i-lucide-arrow-left" class="w-4 h-4 mr-2" />
+    返回
+  </Button>
+</template>
+```
+
 ## Accessibility Guidelines
 
 - Use semantic HTML elements
@@ -421,6 +488,13 @@ function validateForm() {
 - Ensure keyboard navigation works
 - Maintain proper color contrast
 - Test with screen readers
+
+## Internationalization
+
+- Primary language: Chinese (zh-cn)
+- Use appropriate Chinese text for labels and messages
+- Consider future English support
+- Use proper date/time formatting for locale
 
 ## Testing Suggestions
 
@@ -435,6 +509,7 @@ function validateForm() {
 - Test critical user flows
 - Test authentication flows
 - Test form submissions
+- Test meeting scheduling workflows
 
 ## Development Workflow
 
@@ -445,6 +520,8 @@ function validateForm() {
 3. Don't import shadcn-vue components manually
 4. Use proper TypeScript types
 5. Follow the established file structure
+6. Consider mobile responsiveness
+7. Use Chinese text for user-facing content
 
 ### Code Review Checklist
 
@@ -455,15 +532,74 @@ function validateForm() {
 - [ ] Includes proper error handling
 - [ ] Has accessibility considerations
 - [ ] Uses NuxtLink for internal navigation
+- [ ] Mobile-responsive design
+- [ ] Chinese text for UI elements
 
 ## Project-Specific Context
 
-This is a **meeting room management system** where:
+This is an **Online Meeting Management System** where:
+
+### Core Features
+
+#### 🔐 User Authentication & Authorization
+
+- GitHub OAuth authentication via nuxt-auth-utils
+- Secure session management
+- Basic permission control for authenticated users
+
+#### 📅 Online Meeting Scheduling
+
+- Smart calendar interface for intuitive meeting arrangement
+- Meeting conflict detection to avoid duplicate bookings
+- Support for recurring meetings and meeting series
+- Meeting link management with automatic generation and distribution
+- Participant invitation system with email notifications
+
+#### 👥 Team Collaboration Management
+
+- Team workspace creation and management
+- Three-tier permission system: Owner, Administrator, Member
+- Unified team meeting scheduling and management
+- Email-based member invitation system
+- Shared team calendar
+
+#### 🛠️ Meeting Management Features
+
+- Meeting templates for preset configurations
+- Meeting notes and document management
+- Attendance statistics and meeting effectiveness analysis
+- Multi-channel meeting reminder notifications
+
+#### 📱 User Experience
+
+- Responsive design for mobile, tablet, and desktop
+- Real-time notifications for meeting status updates
+- Personal dashboard with meeting records and statistics
+- Quick search for historical meetings and contacts
+
+#### 🔗 Third-party Integration
+
+- Multi-channel notifications (email, SMS, WeChat Work, etc.)
+- Future: Video conferencing platform integration (Zoom, Teams, etc.)
+
+### Business Rules
 
 - Users authenticate via GitHub OAuth
-- Users can book meeting rooms
-- System manages room availability
-- Users can view their bookings
-- Admin users can manage rooms and users
+- Users can create and manage personal meetings
+- Users can join teams and participate in team meetings
+- Team owners/admins can manage team members and permissions
+- System manages meeting availability and prevents conflicts
+- Users can view their booking history and statistics
+- Meeting rooms represent virtual meeting spaces
+- System tracks attendance and meeting effectiveness
 
-When suggesting features or code, keep this domain context in mind and suggest relevant functionality for meeting room management.
+### Development Priorities
+
+1. **Meeting Scheduling** - Core booking and calendar functionality
+2. **Team Management** - Team creation, member management, permissions
+3. **User Dashboard** - Personal meeting overview and statistics
+4. **Notifications** - Email and in-app notification system
+5. **Mobile Experience** - Touch-friendly responsive design
+6. **Third-party Integration** - External calendar and video platform support
+
+When suggesting features or code, keep this domain context in mind and suggest relevant functionality for online meeting management and team collaboration.

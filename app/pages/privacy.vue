@@ -3,15 +3,15 @@ definePageMeta({
   auth: false,
 });
 
-useHead({
+useSeoMeta({
   title: "隐私政策 - Meeting Room",
-  meta: [
-    { name: "description", content: "Meeting Room 会议室管理系统隐私政策" },
-  ],
+  description: "Meeting Room 在线会议平台隐私政策",
+  ogTitle: "隐私政策 - Meeting Room",
+  ogDescription: "Meeting Room 在线会议平台隐私政策",
 });
 
 function goBack() {
-  window.history.back();
+  history.back();
 }
 </script>
 
@@ -45,7 +45,7 @@ function goBack() {
 
             <h3 class="text-xl font-semibold mb-3">1.2 使用数据</h3>
             <ul class="list-disc pl-6 space-y-2">
-              <li>会议室预订记录</li>
+              <li>在线会议预订记录</li>
               <li>登录时间和频率</li>
               <li>系统使用日志</li>
               <li>设备和浏览器信息</li>
@@ -56,8 +56,8 @@ function goBack() {
             <h2 class="text-2xl font-semibold mb-4">2. 信息使用</h2>
             <p class="mb-4">我们使用收集的信息用于：</p>
             <ul class="list-disc pl-6 space-y-2">
-              <li>提供和维护会议室管理服务</li>
-              <li>处理会议室预订请求</li>
+              <li>提供和维护在线会议服务</li>
+              <li>处理会议预订请求</li>
               <li>发送服务相关通知</li>
               <li>改进系统功能和用户体验</li>
               <li>防止滥用和维护系统安全</li>

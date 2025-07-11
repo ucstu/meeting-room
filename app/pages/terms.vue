@@ -3,15 +3,15 @@ definePageMeta({
   auth: false,
 });
 
-useHead({
+useSeoMeta({
   title: "服务条款 - Meeting Room",
-  meta: [
-    { name: "description", content: "Meeting Room 会议室管理系统服务条款" },
-  ],
+  description: "Meeting Room 在线会议平台服务条款",
+  ogTitle: "服务条款 - Meeting Room",
+  ogDescription: "Meeting Room 在线会议平台服务条款",
 });
 
 function goBack() {
-  window.history.back();
+  history.back();
 }
 </script>
 
@@ -37,7 +37,7 @@ function goBack() {
             <h2 class="text-2xl font-semibold mb-4">1. 服务说明</h2>
             <p class="mb-4">
               Meeting Room
-              是一个会议室管理系统，为用户提供会议室预订、管理和相关服务。通过使用我们的服务，您同意受本服务条款的约束。
+              是一个在线会议平台，为用户提供会议调度、管理和相关服务。通过使用我们的服务，您同意受本服务条款的约束。
             </p>
           </section>
 
@@ -57,19 +57,19 @@ function goBack() {
             <ul class="list-disc pl-6 space-y-2">
               <li>遵守所有适用的法律法规</li>
               <li>不进行任何可能损害系统的活动</li>
-              <li>不滥用会议室预订功能</li>
+              <li>不滥用会议预订功能</li>
               <li>及时取消不需要的预订</li>
               <li>尊重其他用户的权利</li>
             </ul>
           </section>
 
           <section class="mb-8">
-            <h2 class="text-2xl font-semibold mb-4">4. 会议室预订政策</h2>
+            <h2 class="text-2xl font-semibold mb-4">4. 会议预订政策</h2>
             <ul class="list-disc pl-6 space-y-2">
               <li>预订必须提前至少 30 分钟</li>
               <li>如需取消，请提前 15 分钟取消预订</li>
               <li>重复无故缺席可能导致预订权限受限</li>
-              <li>会议室使用需遵守相关规章制度</li>
+              <li>会议使用需遵守相关规章制度</li>
             </ul>
           </section>
 
