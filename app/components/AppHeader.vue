@@ -46,27 +46,37 @@
 
       <div class="flex items-center space-x-3">
         <!-- Language Switcher -->
-        <SelectRoot
-          v-model="currentLanguage"
-          @update:model-value="switchLanguage"
-        >
-          <SelectTrigger
-            class="bg-slate-100 hover:bg-slate-200 text-slate-700 px-3 py-2 rounded-lg text-sm font-medium transition-colors cursor-pointer border-0"
+        <div class="relative">
+          <button
+            class="bg-slate-100 hover:bg-slate-200 text-slate-700 px-3 py-2 rounded-lg text-sm font-medium transition-colors cursor-pointer border-0 flex items-center space-x-2"
+            @click="isOpen = !isOpen"
           >
-            <SelectValue />
-            <SelectIcon as-child>
-              <Icon name="lucide:chevron-down" class="h-4 w-4 opacity-50" />
-            </SelectIcon>
-          </SelectTrigger>
-          <SelectContent>
-            <SelectItem value="zh">
-              <SelectItemText>中文</SelectItemText>
-            </SelectItem>
-            <SelectItem value="en">
-              <SelectItemText>English</SelectItemText>
-            </SelectItem>
-          </SelectContent>
-        </SelectRoot>
+            <span>{{ currentLanguage === "zh" ? "中文" : "English" }}</span>
+            <Icon
+              name="lucide:chevron-down"
+              class="h-4 w-4 opacity-50"
+              aria-hidden="true"
+            />
+          </button>
+
+          <div
+            v-if="isOpen"
+            class="absolute right-0 z-10 mt-2 w-48 bg-white rounded-lg shadow-lg overflow-hidden"
+          >
+            <button
+              class="w-full text-left px-4 py-2 text-sm text-slate-700 hover:bg-slate-100"
+              @click="switchLanguage('zh')"
+            >
+              中文
+            </button>
+            <button
+              class="w-full text-left px-4 py-2 text-sm text-slate-700 hover:bg-slate-100"
+              @click="switchLanguage('en')"
+            >
+              English
+            </button>
+          </div>
+        </div>
 
         <button
           class="px-4 py-2 bg-blue-600 text-white rounded-lg font-medium hover:bg-blue-700 transition-colors inline-flex items-center"
@@ -81,19 +91,14 @@
 </template>
 
 <script setup lang="ts">
-import {
-  SelectContent,
-  SelectIcon,
-  SelectItem,
-  SelectItemText,
-  SelectRoot,
-  SelectTrigger,
-  SelectValue,
-} from "reka-ui";
+import { ref } from "vue";
 
 const currentLanguage = ref("zh");
+const isOpen = ref(false);
 
-const switchLanguage = () => {
+const switchLanguage = (lang: string) => {
+  currentLanguage.value = lang;
+  isOpen.value = false;
   console.log("切换语言到:", currentLanguage.value);
 };
 
@@ -101,3 +106,7 @@ const createNewMeeting = () => {
   navigateTo("/rooms");
 };
 </script>
+
+<style scoped>
+/* Add any additional styles here */
+</style>

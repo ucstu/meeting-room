@@ -32,7 +32,7 @@
                 :placeholder="
                   currentLang === 'zh' ? '输入房间名称' : 'Enter room name'
                 "
-              />
+              >
             </div>
 
             <div>
@@ -61,41 +61,31 @@
                   currentLang === "zh" ? "最大参与人数" : "Maximum Participants"
                 }}
               </label>
-              <SelectRoot v-model="formData.maxParticipants">
-                <SelectTrigger
-                  class="w-full px-4 py-3 border border-slate-200 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors"
+              <div class="relative">
+                <select
+                  v-model="formData.maxParticipants"
+                  class="appearance-none w-full px-4 py-3 border border-slate-200 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors"
                 >
-                  <SelectValue />
-                  <SelectIcon as-child>
-                    <Icon
-                      name="lucide:chevron-down"
-                      class="h-4 w-4 opacity-50"
-                    />
-                  </SelectIcon>
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem :value="5">
-                    <SelectItemText>{{
-                      currentLang === "zh" ? "5 人" : "5 People"
-                    }}</SelectItemText>
-                  </SelectItem>
-                  <SelectItem :value="10">
-                    <SelectItemText>{{
-                      currentLang === "zh" ? "10 人" : "10 People"
-                    }}</SelectItemText>
-                  </SelectItem>
-                  <SelectItem :value="25">
-                    <SelectItemText>{{
-                      currentLang === "zh" ? "25 人" : "25 People"
-                    }}</SelectItemText>
-                  </SelectItem>
-                  <SelectItem :value="50">
-                    <SelectItemText>{{
-                      currentLang === "zh" ? "50 人" : "50 People"
-                    }}</SelectItemText>
-                  </SelectItem>
-                </SelectContent>
-              </SelectRoot>
+                  <option value="5">
+                    {{ currentLang === "zh" ? "5 人" : "5 People" }}
+                  </option>
+                  <option value="10">
+                    {{ currentLang === "zh" ? "10 人" : "10 People" }}
+                  </option>
+                  <option value="25">
+                    {{ currentLang === "zh" ? "25 人" : "25 People" }}
+                  </option>
+                  <option value="50">
+                    {{ currentLang === "zh" ? "50 人" : "50 People" }}
+                  </option>
+                </select>
+                <div class="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none">
+                  <Icon
+                    name="lucide:chevron-down"
+                    class="h-4 w-4 opacity-50"
+                  />
+                </div>
+              </div>
             </div>
           </div>
 
@@ -121,16 +111,6 @@
 </template>
 
 <script setup lang="ts">
-import {
-  SelectContent,
-  SelectIcon,
-  SelectItem,
-  SelectItemText,
-  SelectRoot,
-  SelectTrigger,
-  SelectValue,
-} from "reka-ui";
-
 interface Props {
   modelValue: boolean;
 }

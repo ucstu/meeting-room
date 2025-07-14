@@ -97,45 +97,33 @@
           </div>
 
           <div class="flex items-center space-x-3">
-            <SelectRoot v-model="statusFilter">
-              <SelectTrigger class="px-4 py-3 bg-white border border-slate-200 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors">
-                <SelectValue />
-                <SelectIcon as-child>
-                  <Icon name="lucide:chevron-down" class="h-4 w-4 opacity-50" />
-                </SelectIcon>
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="all">
-                  <SelectItemText>全部状态</SelectItemText>
-                </SelectItem>
-                <SelectItem value="active">
-                  <SelectItemText>进行中</SelectItemText>
-                </SelectItem>
-                <SelectItem value="waiting">
-                  <SelectItemText>等待中</SelectItemText>
-                </SelectItem>
-              </SelectContent>
-            </SelectRoot>
+            <div class="relative">
+              <select
+                v-model="statusFilter"
+                class="appearance-none px-4 py-3 bg-white border border-slate-200 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors"
+              >
+                <option value="all">全部状态</option>
+                <option value="active">进行中</option>
+                <option value="waiting">等待中</option>
+              </select>
+              <div class="absolute right-3 top-1/2 transform -translate-y-1/2">
+                <Icon name="lucide:chevron-down" class="h-4 w-4 opacity-50" />
+              </div>
+            </div>
 
-            <SelectRoot v-model="sortBy">
-              <SelectTrigger class="px-4 py-3 bg-white border border-slate-200 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors">
-                <SelectValue />
-                <SelectIcon as-child>
-                  <Icon name="lucide:chevron-down" class="h-4 w-4 opacity-50" />
-                </SelectIcon>
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="recent">
-                  <SelectItemText>最新</SelectItemText>
-                </SelectItem>
-                <SelectItem value="participants">
-                  <SelectItemText>参与人数</SelectItemText>
-                </SelectItem>
-                <SelectItem value="name">
-                  <SelectItemText>按名称</SelectItemText>
-                </SelectItem>
-              </SelectContent>
-            </SelectRoot>
+            <div class="relative">
+              <select
+                v-model="sortBy"
+                class="appearance-none px-4 py-3 bg-white border border-slate-200 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors"
+              >
+                <option value="recent">最新</option>
+                <option value="participants">参与人数</option>
+                <option value="name">按名称</option>
+              </select>
+              <div class="absolute right-3 top-1/2 transform -translate-y-1/2">
+                <Icon name="lucide:chevron-down" class="h-4 w-4 opacity-50" />
+              </div>
+            </div>
           </div>
         </div>
       </section>
@@ -222,28 +210,20 @@
 
               <div>
                 <label class="block text-sm font-medium text-slate-700 mb-2">最大参与人数</label>
-                <SelectRoot v-model="newRoom.maxParticipants">
-                  <SelectTrigger class="w-full px-4 py-3 border border-slate-200 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors">
-                    <SelectValue />
-                    <SelectIcon as-child>
-                      <Icon name="lucide:chevron-down" class="h-4 w-4 opacity-50" />
-                    </SelectIcon>
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem :value="5">
-                      <SelectItemText>5 人</SelectItemText>
-                    </SelectItem>
-                    <SelectItem :value="10">
-                      <SelectItemText>10 人</SelectItemText>
-                    </SelectItem>
-                    <SelectItem :value="25">
-                      <SelectItemText>25 人</SelectItemText>
-                    </SelectItem>
-                    <SelectItem :value="50">
-                      <SelectItemText>50 人</SelectItemText>
-                    </SelectItem>
-                  </SelectContent>
-                </SelectRoot>
+                <div class="relative">
+                  <select
+                    v-model="newRoom.maxParticipants"
+                    class="appearance-none w-full px-4 py-3 border border-slate-200 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors"
+                  >
+                    <option :value="5">5 人</option>
+                    <option :value="10">10 人</option>
+                    <option :value="25">25 人</option>
+                    <option :value="50">50 人</option>
+                  </select>
+                  <div class="absolute right-3 top-1/2 transform -translate-y-1/2">
+                    <Icon name="lucide:chevron-down" class="h-4 w-4 opacity-50" />
+                  </div>
+                </div>
               </div>
             </div>
 
@@ -324,14 +304,9 @@
 
 <script setup lang="ts">
 import {
-  SelectContent,
-  SelectIcon,
-  SelectItem,
-  SelectItemText,
-  SelectRoot,
-  SelectTrigger,
-  SelectValue
-} from "reka-ui"
+  computed,
+  ref
+} from "vue"
 
 // Sample data - in real app this would come from API
 const mockRooms = [

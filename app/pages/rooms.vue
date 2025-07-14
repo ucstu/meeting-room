@@ -38,54 +38,134 @@
                 type="text"
                 placeholder="搜索房间..."
                 class="pl-10 pr-4 py-3 bg-white border border-slate-200 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors w-full md:w-80"
-              />
+              >
             </div>
           </div>
 
           <div class="flex items-center space-x-3">
-            <SelectRoot v-model="statusFilter">
-              <SelectTrigger
-                class="px-4 py-3 bg-white border border-slate-200 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors"
-              >
-                <SelectValue />
-                <SelectIcon as-child>
-                  <Icon name="lucide:chevron-down" class="h-4 w-4 opacity-50" />
-                </SelectIcon>
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="all">
-                  <SelectItemText>全部状态</SelectItemText>
-                </SelectItem>
-                <SelectItem value="active">
-                  <SelectItemText>进行中</SelectItemText>
-                </SelectItem>
-                <SelectItem value="waiting">
-                  <SelectItemText>等待中</SelectItemText>
-                </SelectItem>
-              </SelectContent>
-            </SelectRoot>
+            <div
+              class="relative inline-block text-left"
+            >
+              <div>
+                <button
+                  type="button"
+                  class="inline-flex justify-between px-4 py-3 bg-white border border-slate-200 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors w-full"
+                  @click="toggleStatusMenu"
+                >
+                  <span class="block truncate">
+                    {{ statusFilter === 'all' ? '全部状态' : (statusFilter === 'active' ? '进行中' : '等待中') }}
+                  </span>
+                  <svg
+                    class="w-5 h-5 ml-2 -mr-1"
+                    xmlns="http://www.w3.org/2000/svg"
+                    viewBox="0 0 20 20"
+                    fill="currentColor"
+                    aria-hidden="true"
+                  >
+                    <path
+                      fill-rule="evenodd"
+                      d="M5.23 7.21a.75.75 0 011.06 0L10 10.44l3.71-3.23a.75.75 0 111.06 1.06l-4.25 3.5a.75.75 0 01-1.06 0l-4.25-3.5a.75.75 0 010-1.06z"
+                      clip-rule="evenodd"
+                    />
+                  </svg>
+                </button>
+              </div>
 
-            <SelectRoot v-model="sortBy">
-              <SelectTrigger
-                class="px-4 py-3 bg-white border border-slate-200 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors"
+              <div
+                v-if="isStatusMenuOpen"
+                class="absolute right-0 z-10 mt-2 w-56 bg-white rounded-md shadow-lg ring-1 ring-black ring-opacity-5"
+                role="menu"
+                aria-orientation="vertical"
+                aria-labelledby="menu-button"
+                tabindex="-1"
               >
-                <SelectValue />
-                <SelectIcon as-child>
-                  <Icon name="lucide:chevron-down" class="h-4 w-4 opacity-50" />
-                </SelectIcon>
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="recent">
-                  <SelectItemText>最新</SelectItemText>
-                </SelectItem>
-                <SelectItem value="participants">
-                  <SelectItemText>参与人数</SelectItemText>
-                </SelectItem>
-                <SelectItem value="name">
-                  <SelectItemText>按名称</SelectItemText>
-                </SelectItem>
-              </SelectContent>
-            </SelectRoot>
+                <div class="py-1" role="none">
+                  <div
+                    role="menuitem"
+                    class="flex items-center w-full px-4 py-2 text-sm text-slate-700 hover:bg-slate-100"
+                    @click="statusFilter = 'all'; isStatusMenuOpen = false"
+                  >
+                    全部状态
+                  </div>
+                  <div
+                    role="menuitem"
+                    class="flex items-center w-full px-4 py-2 text-sm text-slate-700 hover:bg-slate-100"
+                    @click="statusFilter = 'active'; isStatusMenuOpen = false"
+                  >
+                    进行中
+                  </div>
+                  <div
+                    role="menuitem"
+                    class="flex items-center w-full px-4 py-2 text-sm text-slate-700 hover:bg-slate-100"
+                    @click="statusFilter = 'waiting'; isStatusMenuOpen = false"
+                  >
+                    等待中
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div
+              class="relative inline-block text-left"
+            >
+              <div>
+                <button
+                  type="button"
+                  class="inline-flex justify-between px-4 py-3 bg-white border border-slate-200 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors w-full"
+                  @click="toggleSortMenu"
+                >
+                  <span class="block truncate">
+                    {{ sortBy === 'recent' ? '最新' : (sortBy === 'participants' ? '参与人数' : '按名称') }}
+                  </span>
+                  <svg
+                    class="w-5 h-5 ml-2 -mr-1"
+                    xmlns="http://www.w3.org/2000/svg"
+                    viewBox="0 0 20 20"
+                    fill="currentColor"
+                    aria-hidden="true"
+                  >
+                    <path
+                      fill-rule="evenodd"
+                      d="M5.23 7.21a.75.75 0 011.06 0L10 10.44l3.71-3.23a.75.75 0 111.06 1.06l-4.25 3.5a.75.75 0 01-1.06 0l-4.25-3.5a.75.75 0 010-1.06z"
+                      clip-rule="evenodd"
+                    />
+                  </svg>
+                </button>
+              </div>
+
+              <div
+                v-if="isSortMenuOpen"
+                class="absolute right-0 z-10 mt-2 w-56 bg-white rounded-md shadow-lg ring-1 ring-black ring-opacity-5"
+                role="menu"
+                aria-orientation="vertical"
+                aria-labelledby="menu-button"
+                tabindex="-1"
+              >
+                <div class="py-1" role="none">
+                  <div
+                    role="menuitem"
+                    class="flex items-center w-full px-4 py-2 text-sm text-slate-700 hover:bg-slate-100"
+                    @click="sortBy = 'recent'; isSortMenuOpen = false"
+                  >
+                    最新
+                  </div>
+                  <div
+                    role="menuitem"
+                    class="flex items-center w-full px-4 py-2 text-sm text-slate-700 hover:bg-slate-100"
+                    @click="sortBy = 'participants'; isSortMenuOpen = false"
+                  >
+                    参与人数
+                  </div>
+                  <div
+                    role="menuitem"
+                    class="flex items-center w-full px-4 py-2 text-sm text-slate-700 hover:bg-slate-100"
+                    @click="sortBy = 'name'; isSortMenuOpen = false"
+                  >
+                    按名称
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </section>
@@ -181,16 +261,6 @@
 </template>
 
 <script setup lang="ts">
-import {
-  SelectContent,
-  SelectIcon,
-  SelectItem,
-  SelectItemText,
-  SelectRoot,
-  SelectTrigger,
-  SelectValue,
-} from "reka-ui";
-
 // 模拟房间数据
 const mockRooms = [
   {
@@ -248,6 +318,8 @@ const searchQuery = ref("");
 const statusFilter = ref("all");
 const sortBy = ref("recent");
 const showCreateRoom = ref(false);
+const isStatusMenuOpen = ref(false);
+const isSortMenuOpen = ref(false);
 
 // 计算属性
 const filteredRooms = computed(() => {

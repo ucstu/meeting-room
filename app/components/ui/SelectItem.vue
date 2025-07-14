@@ -1,5 +1,5 @@
 <template>
-  <SelectItem
+  <div
     :value="value"
     :disabled="disabled"
     :class="
@@ -10,20 +10,17 @@
     "
   >
     <span class="absolute left-2 flex h-3.5 w-3.5 items-center justify-center">
-      <SelectItemIndicator>
+      <!-- <SelectItemIndicator>
         <CheckIcon class="h-4 w-4" />
-      </SelectItemIndicator>
+      </SelectItemIndicator> -->
     </span>
-    <SelectItemText>
-      <slot />
-    </SelectItemText>
-  </SelectItem>
+    <!-- <SelectItemText> -->
+    <slot />
+    <!-- </SelectItemText> -->
+  </div>
 </template>
 
 <script setup lang="ts">
-import { CheckIcon } from "@heroicons/vue/24/outline";
-import { SelectItem, SelectItemIndicator, SelectItemText } from "reka-ui";
-
 interface Props {
   value: string | number;
   disabled?: boolean;

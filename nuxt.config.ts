@@ -1,3 +1,4 @@
+import tailwindcss from "@tailwindcss/vite";
 export default defineNuxtConfig({
   modules: [
     "@nuxthub/core",
@@ -7,8 +8,8 @@ export default defineNuxtConfig({
     "@vueuse/nuxt",
     "nuxt-security",
     "nuxt-auth-utils",
-    "reka-ui/nuxt",
     "@nuxtjs/i18n",
+    "shadcn-nuxt",
   ],
   devtools: {
     enabled: true,
@@ -34,7 +35,7 @@ export default defineNuxtConfig({
     workers: true,
     database: true,
   },
-  css: ["~/assets/css/main.css"],
+  css: ["~/assets/css/main.css", "~/assets/css/tailwind.css"],
 
   // 国际化配置
   i18n: {
@@ -56,6 +57,7 @@ export default defineNuxtConfig({
     optimizeDeps: {
       include: ["@iconify-json/lucide"],
     },
+    plugins: [tailwindcss()],
   },
 
   // 安全配置
@@ -73,6 +75,18 @@ export default defineNuxtConfig({
     {
       path: "~/components",
       pathPrefix: false,
+      extensions: ["vue"], // 仅导入 Vue 文件
     },
   ],
+  // shadcn: {
+  //   /**
+  //    * Prefix for all the imported component
+  //    */
+  //   prefix: "",
+  //   /**
+  //    * Directory that the component lives in.
+  //    * @default "./components/ui"
+  //    */
+  //   componentDir: "./app/components/ui", // 确保这是一个目录
+  // },
 });
