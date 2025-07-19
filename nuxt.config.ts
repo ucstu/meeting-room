@@ -1,5 +1,5 @@
+import tailwindcss from "@tailwindcss/vite";
 import devtoolsJson from "vite-plugin-devtools-json";
-
 export default defineNuxtConfig({
   modules: [
     "@nuxthub/core",
@@ -25,6 +25,7 @@ export default defineNuxtConfig({
   vite: {
     plugins: [
       ...(process.env.NODE_ENV === "development" ? [devtoolsJson()] : []),
+      tailwindcss(),
     ],
   },
   security: {
