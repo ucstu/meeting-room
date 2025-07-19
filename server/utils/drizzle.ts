@@ -10,3 +10,7 @@ export function useDrizzle() {
 }
 
 export type Room = typeof schema.rooms.$inferSelect;
+export type Team = typeof schema.teams.$inferSelect;
+export type UserRooms = typeof schema.userRooms.$inferSelect;
+export type UserTeams = typeof schema.userTeams.$inferSelect;
+export type TeamRooms = typeof schema.teamRooms.$inferSelect;
