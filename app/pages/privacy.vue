@@ -1,12 +1,13 @@
 <script lang="ts" setup>
 definePageMeta({
   auth: false,
+  layout: "full",
 });
 
 useSeoMeta({
-  title: "隐私政策 - Meeting Room",
+  title: "隐私政策",
   description: "Meeting Room 在线会议平台隐私政策",
-  ogTitle: "隐私政策 - Meeting Room",
+  ogTitle: "隐私政策",
   ogDescription: "Meeting Room 在线会议平台隐私政策",
 });
 
@@ -19,32 +20,46 @@ function goBack() {
   <div class="min-h-screen bg-background">
     <div class="container mx-auto px-4 py-8 max-w-4xl">
       <!-- Header -->
-      <div class="mb-8">
-        <div class="flex items-center gap-4 mb-4">
+      <div class="mb-6">
+        <div class="flex items-center gap-2 mb-6">
           <Button variant="ghost" size="sm" @click="goBack">
-            <icon name="i-lucide-arrow-left" class="w-4 h-4 mr-2" />
+            <Icon name="lucide:arrow-left" class="w-4 h-4 mr-2" />
             返回
           </Button>
         </div>
-        <h1 class="text-4xl font-bold tracking-tight">隐私政策</h1>
-        <p class="text-muted-foreground mt-2">最后更新：2025年7月10日</p>
+        <h1
+          class="scroll-m-20 text-4xl font-extrabold tracking-tight lg:text-5xl"
+        >
+          隐私政策
+        </h1>
+        <p class="text-muted-foreground">最后更新：2025年7月10日</p>
       </div>
 
       <!-- Content -->
       <Card>
-        <CardContent class="prose prose-slate dark:prose-invert max-w-none p-8">
-          <section class="mb-8">
-            <h2 class="text-2xl font-semibold mb-4">1. 信息收集</h2>
-            <p class="mb-4">我们收集以下类型的信息：</p>
-            <h3 class="text-xl font-semibold mb-3">1.1 账户信息</h3>
-            <ul class="list-disc pl-6 space-y-2 mb-4">
+        <CardContent class="prose prose-slate dark:prose-invert max-w-none p-6">
+          <section class="mb-6">
+            <h2
+              class="scroll-m-20 border-b pb-2 text-3xl font-semibold tracking-tight first:mt-0"
+            >
+              1. 信息收集
+            </h2>
+            <p class="leading-7 [&:not(:first-child)]:mt-6">
+              我们收集以下类型的信息：
+            </p>
+            <h3 class="scroll-m-20 text-2xl font-semibold tracking-tight">
+              1.1 账户信息
+            </h3>
+            <ul class="my-6 ml-6 list-disc [&>li]:mt-2">
               <li>GitHub 用户名和基本资料信息</li>
               <li>邮箱地址（如果公开）</li>
               <li>头像信息</li>
             </ul>
 
-            <h3 class="text-xl font-semibold mb-3">1.2 使用数据</h3>
-            <ul class="list-disc pl-6 space-y-2">
+            <h3 class="scroll-m-20 text-2xl font-semibold tracking-tight">
+              1.2 使用数据
+            </h3>
+            <ul class="my-6 ml-6 list-disc [&>li]:mt-2">
               <li>在线会议预订记录</li>
               <li>登录时间和频率</li>
               <li>系统使用日志</li>

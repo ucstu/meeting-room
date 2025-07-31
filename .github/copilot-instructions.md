@@ -31,12 +31,45 @@ This is an **Online Meeting Management System** (在线会议管理系统) built
 - **shadcn-vue components are auto-imported, do NOT manually import them**
 - ✅ Correct: `<Button>` (no import needed)
 - ❌ Avoid: `import { Button } from '@/components/ui/button'`
+- **Exception**: Form components require explicit imports for proper validation integration
 
 #### Vue Composition API
 
 - Use `<script lang="ts" setup>` for all Vue components
 - Prefer composition API over options API
 - Use `ref()` and `reactive()` for reactive state
+
+#### Form Component Standards
+
+- **MANDATORY: All forms MUST use shadcn Form components**
+- ✅ Required: `FormField`, `FormItem`, `FormLabel`, `FormControl`, `FormMessage`
+- ✅ Use Zod schema validation with `toTypedSchema`
+- ✅ Use `vee-validate` with `useForm` hook
+- ❌ Avoid: Basic HTML forms or custom form validation
+
+#### UI Component Priority
+
+- **ALWAYS prioritize shadcn-vue components over custom styles**
+- ✅ Use shadcn components whenever possible
+- ✅ Follow shadcn design system patterns
+- ❌ Minimize custom CSS classes
+- ❌ Avoid reinventing existing shadcn functionality
+
+#### Typography Standards
+
+- **MANDATORY: Follow shadcn-vue typography classes**
+- ✅ Use semantic HTML tags: `<h1>`, `<h2>`, `<p>`, `<small>`
+- ✅ Use shadcn typography classes: `scroll-m-20`, `leading-7`, `text-muted-foreground`
+- ✅ Maintain consistent text hierarchy and spacing
+- ❌ Avoid custom text styling when shadcn classes exist
+
+#### Internationalization
+
+- **CURRENT POLICY: NO i18n support required**
+- ✅ Use hardcoded Chinese text
+- ✅ Keep interface simple and direct
+- ❌ Do not implement language switching
+- ❌ Do not add internationalization frameworks
 
 ## File Structure Patterns
 
@@ -76,22 +109,51 @@ function handleAction() {
 
 ```vue
 <script lang="ts" setup>
-const formData = ref({
-  // Form fields
+import { z } from "zod";
+import { toTypedSchema } from "@vee-validate/zod";
+import { useForm } from "vee-validate";
+import {
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "@/components/ui/form";
+
+// Define validation schema
+const formSchema = toTypedSchema(
+  z.object({
+    field: z.string().min(1, "字段不能为空"),
+  }),
+);
+
+// Setup form with validation
+const form = useForm({
+  validationSchema: formSchema,
+  initialValues: {
+    field: "",
+  },
 });
 
-function handleSubmit() {
+// Handle form submission
+const onSubmit = form.handleSubmit(async (values) => {
   // Form submission logic
-}
+  console.log(values);
+});
 </script>
 
 <template>
-  <form @submit.prevent="handleSubmit" class="space-y-4">
-    <div>
-      <Label for="field">Field Label</Label>
-      <Input id="field" v-model="formData.field" />
-    </div>
-    <Button type="submit" class="w-full">Submit</Button>
+  <form @submit="onSubmit" class="space-y-4">
+    <FormField v-slot="{ componentField }" name="field">
+      <FormItem>
+        <FormLabel>字段标签</FormLabel>
+        <FormControl>
+          <Input placeholder="输入内容" v-bind="componentField" />
+        </FormControl>
+        <FormMessage />
+      </FormItem>
+    </FormField>
+    <Button type="submit" class="w-full">提交</Button>
   </form>
 </template>
 ```
@@ -102,9 +164,50 @@ function handleSubmit() {
 
 - `Button` (with variants: default, secondary, destructive, outline, ghost, link)
 - `Card`, `CardContent`, `CardDescription`, `CardHeader`, `CardTitle`
-- `Input`
+- `Input`, `Textarea`
 - `Label`
-- `Select`, `SelectContent`, `SelectItem`, `SelectTrigger`, `SelectValue`
+- `Select`, `SelectContent`, `SelectItem`, `SelectTrigger`, `SelectValue`, `SelectGroup`
+- `Dialog`, `DialogContent`, `DialogDescription`, `DialogHeader`, `DialogTitle`, `DialogFooter`
+- `Avatar`, `AvatarFallback`, `AvatarImage`
+- `Badge`
+- `Progress`
+- `Skeleton`
+- `Separator`
+- `Alert`, `AlertDescription`, `AlertTitle`
+- **Form Components**: `Form`, `FormField`, `FormItem`, `FormLabel`, `FormControl`, `FormMessage`
+
+### Form Validation Dependencies
+
+- `zod` - Schema validation library
+- `@vee-validate/zod` - Zod integration for vee-validate
+- `vee-validate` - Vue form validation library
+
+## Design System Standards
+
+### Color and Spacing Guidelines
+
+- **MANDATORY: Follow shadcn color system**
+- Use CSS variables: `hsl(var(--primary))`, `hsl(var(--muted))`
+- Apply consistent spacing using Tailwind classes
+- Maintain proper contrast ratios
+- Use semantic color naming: `primary`, `secondary`, `muted`, `destructive`
+
+### Typography Hierarchy
+
+- **H1**: `scroll-m-20 text-4xl font-extrabold tracking-tight lg:text-5xl`
+- **H2**: `scroll-m-20 border-b pb-2 text-3xl font-semibold tracking-tight first:mt-0`
+- **H3**: `scroll-m-20 text-2xl font-semibold tracking-tight`
+- **H4**: `scroll-m-20 text-xl font-semibold tracking-tight`
+- **Paragraph**: `leading-7 [&:not(:first-child)]:mt-6`
+- **Large Text**: `text-lg font-semibold`
+- **Small Text**: `text-sm text-muted-foreground`
+- **Muted Text**: `text-sm text-muted-foreground`
+
+### Component Usage Priorities
+
+1. **First Priority**: Use existing shadcn-vue components
+2. **Second Priority**: Combine shadcn components for complex UI
+3. **Last Resort**: Create custom components only if shadcn doesn't provide the functionality
 
 ### Available for Installation
 
@@ -603,3 +706,92 @@ This is an **Online Meeting Management System** where:
 6. **Third-party Integration** - External calendar and video platform support
 
 When suggesting features or code, keep this domain context in mind and suggest relevant functionality for online meeting management and team collaboration.
+
+## ⚠️ CRITICAL DEVELOPMENT STANDARDS
+
+### 🎨 UI/UX Requirements (MANDATORY)
+
+#### Form Implementation Standards
+
+- **ALL forms MUST use shadcn Form components with proper validation**
+- Required imports: `FormField`, `FormItem`, `FormLabel`, `FormControl`, `FormMessage`
+- Use Zod schema validation with `toTypedSchema` and `vee-validate`
+- Form submission MUST use `form.handleSubmit()` pattern
+- ❌ **NEVER use basic HTML forms or custom validation**
+
+#### Typography Standards (MANDATORY)
+
+- **MUST follow shadcn-vue typography guidelines**
+- Use semantic HTML: `<h1>`, `<h2>`, `<h3>`, `<p>`, `<small>`
+- Apply shadcn typography classes: `scroll-m-20`, `leading-7`, `text-muted-foreground`
+- Maintain consistent text hierarchy and proper spacing
+- ❌ **AVOID custom text styling when shadcn classes exist**
+
+#### Component Usage Policy (MANDATORY)
+
+- **shadcn-vue components take absolute priority over custom styles**
+- Only create custom components when shadcn doesn't provide the functionality
+- Minimize custom CSS classes - use shadcn design tokens
+- Follow shadcn color system and spacing guidelines
+- ❌ **DO NOT reinvent existing shadcn functionality**
+
+### 🌐 Internationalization Policy
+
+#### Current Language Standards
+
+- **NO i18n framework implementation required**
+- Use hardcoded Chinese text throughout the application
+- Keep user interface simple and direct
+- Focus on functionality over multilingual support
+- ❌ **DO NOT implement language switching or i18n libraries**
+
+### 🔧 Code Quality Standards
+
+#### Form Validation Pattern
+
+```typescript
+// REQUIRED pattern for all forms
+const schema = toTypedSchema(
+  z.object({
+    field: z.string().min(1, "错误信息"),
+  }),
+);
+
+const form = useForm({
+  validationSchema: schema,
+  initialValues: { field: "" },
+});
+
+const onSubmit = form.handleSubmit(async (values) => {
+  // Handle submission
+});
+```
+
+#### Typography Implementation
+
+```vue
+<!-- REQUIRED semantic structure -->
+<h1 class="scroll-m-20 text-4xl font-extrabold tracking-tight lg:text-5xl">
+  主标题
+</h1>
+<p class="leading-7 [&:not(:first-child)]:mt-6">
+  正文内容
+</p>
+<small class="text-sm text-muted-foreground">
+  辅助文字
+</small>
+```
+
+### 📋 Pre-Development Checklist
+
+Before implementing any feature, ensure:
+
+- [ ] Forms use shadcn Form components with Zod validation
+- [ ] Typography follows shadcn standards with semantic HTML
+- [ ] Components prioritize shadcn over custom styles
+- [ ] Text content is in Chinese (no i18n needed)
+- [ ] Regular function declarations (not arrow functions)
+- [ ] TypeScript types are properly defined
+- [ ] Responsive design principles are applied
+
+**⚠️ These standards are non-negotiable and must be followed in all development work.**

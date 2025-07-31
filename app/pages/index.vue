@@ -1,367 +1,61 @@
-<template>
-  <div class="min-h-screen bg-gradient-to-br from-slate-50 to-slate-100">
-    <AppHeader />
-
-    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-      <!-- Hero Section -->
-      <section class="text-center mb-12">
-        <h1
-          class="text-4xl md:text-5xl lg:text-6xl font-bold text-slate-900 leading-tight mb-4"
-        >
-          欢迎来到会议室
-        </h1>
-        <p
-          class="text-lg md:text-xl text-slate-600 leading-relaxed mb-8 max-w-2xl mx-auto"
-        >
-          与您的团队即时连接。加入现有房间或创建您自己的会议空间。
-        </p>
-
-        <div
-          class="flex flex-col sm:flex-row gap-4 justify-center items-center mb-8"
-        >
-          <Button
-            class="px-6 py-3 bg-blue-600 text-white rounded-lg font-medium hover:bg-blue-700 transition-colors cursor-pointer inline-flex items-center space-x-2"
-            @click="showCreateRoom = true"
-          >
-            <Icon name="lucide:plus" class="w-5 h-5" />
-            <span>创建新房间</span>
-          </Button>
-          <Button
-            class="px-6 py-3 bg-white text-slate-700 border border-slate-200 rounded-lg font-medium hover:bg-slate-50 hover:border-slate-300 transition-colors cursor-pointer inline-flex items-center space-x-2"
-            @click="showJoinRoom = true"
-          >
-            <Icon name="lucide:log-in" class="w-5 h-5" />
-            <span>通过ID加入</span>
-          </Button>
-        </div>
-      </section>
-
-      <!-- Room Statistics -->
-      <section class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
-        <div
-          class="bg-white rounded-2xl p-6 shadow-sm hover:shadow-lg transition-all duration-300"
-        >
-          <div class="flex items-center justify-between">
-            <div>
-              <p class="text-sm font-medium text-slate-600">房间总数</p>
-              <p class="text-2xl font-bold text-slate-900">{{ totalRooms }}</p>
-            </div>
-            <div
-              class="w-12 h-12 bg-blue-100 rounded-xl flex items-center justify-center"
-            >
-              <Icon name="lucide:home" class="w-6 h-6 text-blue-600" />
-            </div>
-          </div>
-        </div>
-
-        <div
-          class="bg-white rounded-2xl p-6 shadow-sm hover:shadow-lg transition-all duration-300"
-        >
-          <div class="flex items-center justify-between">
-            <div>
-              <p class="text-sm font-medium text-slate-600">活跃会议</p>
-              <p class="text-2xl font-bold text-slate-900">
-                {{ activeMeetings }}
-              </p>
-            </div>
-            <div
-              class="w-12 h-12 bg-green-100 rounded-xl flex items-center justify-center"
-            >
-              <Icon name="lucide:video" class="w-6 h-6 text-green-600" />
-            </div>
-          </div>
-        </div>
-
-        <div
-          class="bg-white rounded-2xl p-6 shadow-sm hover:shadow-lg transition-all duration-300"
-        >
-          <div class="flex items-center justify-between">
-            <div>
-              <p class="text-sm font-medium text-slate-600">参与人数</p>
-              <p class="text-2xl font-bold text-slate-900">
-                {{ totalParticipants }}
-              </p>
-            </div>
-            <div
-              class="w-12 h-12 bg-purple-100 rounded-xl flex items-center justify-center"
-            >
-              <Icon name="lucide:users" class="w-6 h-6 text-purple-600" />
-            </div>
-          </div>
-        </div>
-
-        <div
-          class="bg-white rounded-2xl p-6 shadow-sm hover:shadow-lg transition-all duration-300"
-        >
-          <div class="flex items-center justify-between">
-            <div>
-              <p class="text-sm font-medium text-slate-600">可用席位</p>
-              <p class="text-2xl font-bold text-slate-900">
-                {{ availableSlots }}
-              </p>
-            </div>
-            <div
-              class="w-12 h-12 bg-orange-100 rounded-xl flex items-center justify-center"
-            >
-              <Icon name="lucide:users-round" class="w-6 h-6 text-orange-600" />
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <!-- Filters and Search -->
-      <section class="mb-8">
-        <div
-          class="flex flex-col md:flex-row gap-4 items-center justify-between"
-        >
-          <div class="flex items-center space-x-4">
-            <div class="relative">
-              <Icon
-                name="lucide:search"
-                class="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-slate-400"
-              />
-              <Input
-                v-model="searchQuery"
-                type="text"
-                placeholder="搜索房间..."
-                class="pl-10 pr-4 py-3 bg-white border border-slate-200 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors w-full md:w-80"
-              />
-            </div>
-          </div>
-
-          <div class="flex items-center space-x-3">
-            <div class="relative">
-              <Select v-model="statusFilter">
-                <SelectTrigger class="w-[180px]">
-                  <SelectValue placeholder="选择状态" />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectGroup>
-                    <SelectItem value="all">全部状态</SelectItem>
-                    <SelectItem value="active">进行中</SelectItem>
-                    <SelectItem value="waiting">等待中</SelectItem>
-                  </SelectGroup>
-                </SelectContent>
-              </Select>
-            </div>
-
-            <div class="relative">
-              <Select v-model="sortBy">
-                <SelectTrigger class="w-[180px]">
-                  <SelectValue placeholder="排序方式" />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectGroup>
-                    <SelectItem value="recent">最新</SelectItem>
-                    <SelectItem value="participants">参与人数</SelectItem>
-                    <SelectItem value="name">按名称</SelectItem>
-                  </SelectGroup>
-                </SelectContent>
-              </Select>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <!-- Room Grid -->
-      <section>
-        <div class="flex items-center justify-between mb-6">
-          <h2 class="text-2xl font-bold text-slate-900">可用房间</h2>
-          <p class="text-slate-600">找到 {{ filteredRooms.length }} 个房间</p>
-        </div>
-
-        <div v-if="filteredRooms.length === 0" class="text-center py-12">
-          <div
-            class="w-24 h-24 bg-slate-100 rounded-full flex items-center justify-center mx-auto mb-4"
-          >
-            <Icon name="lucide:search-x" class="w-12 h-12 text-slate-400" />
-          </div>
-          <h3 class="text-lg font-semibold text-slate-900 mb-2">未找到房间</h3>
-          <p class="text-slate-600 mb-6">请尝试调整搜索条件或创建新房间。</p>
-          <Button
-            class="px-4 py-2 bg-blue-600 text-white rounded-lg font-medium hover:bg-blue-700 transition-colors"
-            @click="showCreateRoom = true"
-          >
-            创建您的第一个房间
-          </Button>
-        </div>
-
-        <div
-          v-else
-          class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"
-        >
-          <RoomCard
-            v-for="room in filteredRooms"
-            :key="room.id"
-            :room="room"
-            @join="joinRoom"
-            @preview="previewRoom"
-          />
-        </div>
-      </section>
-    </main>
-
-    <!-- Create Room Modal -->
-    <Teleport to="body">
-      <div
-        v-if="showCreateRoom"
-        class="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center p-4 z-50"
-        @click.self="showCreateRoom = false"
-      >
-        <div class="bg-white rounded-2xl p-8 w-full max-w-md">
-          <div class="flex items-center justify-between mb-6">
-            <h3 class="text-xl font-bold text-slate-900">创建新房间</h3>
-            <Button
-              class="text-slate-400 hover:text-slate-600 transition-colors"
-              @click="showCreateRoom = false"
-            >
-              <Icon name="lucide:x" class="w-6 h-6" />
-            </Button>
-          </div>
-
-          <form @submit.prevent="createRoom">
-            <div class="space-y-4">
-              <div>
-                <label class="block text-sm font-medium text-slate-700 mb-2"
-                  >房间名称</label
-                >
-                <Input
-                  v-model="newRoom.name"
-                  type="text"
-                  required
-                  class="w-full px-4 py-3 border border-slate-200 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors"
-                  placeholder="输入房间名称"
-                />
-              </div>
-
-              <div>
-                <label class="block text-sm font-medium text-slate-700 mb-2"
-                  >描述（可选）</label
-                >
-                <textarea
-                  v-model="newRoom.description"
-                  rows="3"
-                  class="w-full px-4 py-3 border border-slate-200 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors resize-none"
-                  placeholder="会议的简要描述"
-                />
-              </div>
-
-              <div>
-                <label class="block text-sm font-medium text-slate-700 mb-2"
-                  >最大参与人数</label
-                >
-                <Select v-model="newRoom.maxParticipants">
-                  <SelectTrigger class="w-full">
-                    <SelectValue placeholder="选择人数" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectGroup>
-                      <SelectItem :value="5">5 人</SelectItem>
-                      <SelectItem :value="10">10 人</SelectItem>
-                      <SelectItem :value="25">25 人</SelectItem>
-                      <SelectItem :value="50">50 人</SelectItem>
-                    </SelectGroup>
-                  </SelectContent>
-                </Select>
-              </div>
-            </div>
-
-            <div class="flex items-center gap-3 mt-8">
-              <Button
-                type="Button"
-                class="flex-1 px-4 py-2 bg-white text-slate-700 border border-slate-200 rounded-lg font-medium hover:bg-slate-50 hover:border-slate-300 transition-colors"
-                @click="showCreateRoom = false"
-              >
-                取消
-              </Button>
-              <Button
-                type="submit"
-                class="flex-1 px-4 py-2 bg-blue-600 text-white rounded-lg font-medium hover:bg-blue-700 transition-colors"
-              >
-                创建房间
-              </Button>
-            </div>
-          </form>
-        </div>
-      </div>
-    </Teleport>
-
-    <!-- Join Room Modal -->
-    <Teleport to="body">
-      <div
-        v-if="showJoinRoom"
-        class="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center p-4 z-50"
-        @click.self="showJoinRoom = false"
-      >
-        <div class="bg-white rounded-2xl p-8 w-full max-w-md">
-          <div class="flex items-center justify-between mb-6">
-            <h3 class="text-xl font-bold text-slate-900">加入房间</h3>
-            <Button
-              class="text-slate-400 hover:text-slate-600 transition-colors"
-              @click="showJoinRoom = false"
-            >
-              <Icon name="lucide:x" class="w-6 h-6" />
-            </Button>
-          </div>
-
-          <form @submit.prevent="joinRoomById">
-            <div class="space-y-4">
-              <div>
-                <label class="block text-sm font-medium text-slate-700 mb-2"
-                  >房间 ID</label
-                >
-                <Input
-                  v-model="joinRoomId"
-                  type="text"
-                  required
-                  class="w-full px-4 py-3 border border-slate-200 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors font-mono"
-                  placeholder="输入6位房间ID"
-                  maxlength="6"
-                />
-              </div>
-            </div>
-
-            <div class="flex items-center gap-3 mt-8">
-              <Button
-                type="Button"
-                class="flex-1 px-4 py-2 bg-white text-slate-700 border border-slate-200 rounded-lg font-medium hover:bg-slate-50 hover:border-slate-300 transition-colors"
-                @click="showJoinRoom = false"
-              >
-                取消
-              </Button>
-              <Button
-                type="submit"
-                class="flex-1 px-4 py-2 bg-blue-600 text-white rounded-lg font-medium hover:bg-blue-700 transition-colors"
-              >
-                加入房间
-              </Button>
-            </div>
-          </form>
-        </div>
-      </div>
-    </Teleport>
-  </div>
-</template>
-
-<script setup lang="ts">
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
+<script lang="ts" setup>
 import {
-  Select,
-  SelectContent,
-  SelectGroup,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
-import { computed, ref } from "vue";
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "@/components/ui/form";
+import { toTypedSchema } from "@vee-validate/zod";
+import { useForm } from "vee-validate";
+import { z } from "zod";
 
-// 页面元数据
-definePageMeta({
-  title: "房间列表",
+// SEO 和元数据
+useHead({
+  title: "首页",
+  meta: [{ name: "description", content: "在线会议管理系统 - 与您的团队连接" }],
 });
 
-// Sample data - in real app this would come from API
+// 响应式状态
+const showCreateRoom = ref(false);
+const showJoinRoom = ref(false);
+const searchQuery = ref("");
+const statusFilter = ref("all");
+const sortBy = ref("recent");
+
+// 创建房间表单
+const createRoomSchema = toTypedSchema(
+  z.object({
+    name: z.string().min(1, "房间名称不能为空"),
+    description: z.string().optional(),
+    maxParticipants: z.number().min(1).max(100),
+  }),
+);
+
+const createRoomForm = useForm({
+  validationSchema: createRoomSchema,
+  initialValues: {
+    name: "",
+    description: "",
+    maxParticipants: 10,
+  },
+});
+
+// 加入房间表单
+const joinRoomSchema = toTypedSchema(
+  z.object({
+    roomId: z.string().min(6, "房间ID必须是6位").max(6, "房间ID必须是6位"),
+  }),
+);
+
+const joinRoomForm = useForm({
+  validationSchema: joinRoomSchema,
+  initialValues: {
+    roomId: "",
+  },
+});
+
+// 模拟房间数据
 const mockRooms = [
   {
     id: "room-1",
@@ -373,6 +67,7 @@ const mockRooms = [
     status: "waiting" as "active" | "waiting" | "ended",
     avatars: ["张三", "李四", "王五", "赵六"],
     host: "张三",
+    category: "scheduled",
   },
   {
     id: "room-2",
@@ -384,36 +79,23 @@ const mockRooms = [
     status: "active" as "active" | "waiting" | "ended",
     avatars: ["马小明", "陈晓红", "刘小华", "田小康", "孙小美"],
     host: "马小明",
+    category: "active",
   },
   {
     id: "room-3",
     name: "客户汇报",
-    description: "向我们最重要客户汇报第四季度成果，最终准备阶段。",
+    description: "向我们最重要客户汇报第四季度成果。",
     participants: 15,
     maxParticipants: 50,
     startTime: new Date(Date.now() - 15 * 60 * 1000).toISOString(),
     status: "active" as "active" | "waiting" | "ended",
-    avatars: ["戴小康", "冯小丽", "高小博", "何小敏", "江小鹏", "金小琦"],
+    avatars: ["戴小康", "冯小丽", "高小博", "何小敏"],
     host: "戴小康",
+    category: "active",
   },
 ];
-console.log("Mock rooms data:", mockRooms);
 
-// Reactive state
-const searchQuery = ref("");
-const statusFilter = ref("all");
-const sortBy = ref("recent");
-const showCreateRoom = ref(false);
-const showJoinRoom = ref(false);
-const joinRoomId = ref("");
-
-const newRoom = ref({
-  name: "",
-  description: "",
-  maxParticipants: 10,
-});
-
-// Computed properties
+// 计算属性
 const totalRooms = computed(() => mockRooms.length);
 const activeMeetings = computed(
   () => mockRooms.filter((room) => room.status === "active").length,
@@ -431,7 +113,7 @@ const availableSlots = computed(() =>
 const filteredRooms = computed(() => {
   let rooms = [...mockRooms];
 
-  // Filter by search query
+  // 搜索过滤
   if (searchQuery.value) {
     rooms = rooms.filter(
       (room) =>
@@ -443,12 +125,12 @@ const filteredRooms = computed(() => {
     );
   }
 
-  // Filter by status
+  // 状态过滤
   if (statusFilter.value !== "all") {
     rooms = rooms.filter((room) => room.status === statusFilter.value);
   }
 
-  // Sort rooms
+  // 排序
   if (sortBy.value === "recent") {
     rooms.sort(
       (a, b) =>
@@ -463,34 +145,314 @@ const filteredRooms = computed(() => {
   return rooms;
 });
 
-// Methods
-const joinRoom = (room: (typeof mockRooms)[0]) => {
-  navigateTo(`/meeting/${room.id}`);
-};
-
-const previewRoom = (room: (typeof mockRooms)[0]) => {
-  console.log("Preview room:", room);
-};
-
-const createRoom = () => {
+// 方法
+const handleCreateRoom = createRoomForm.handleSubmit(async (values) => {
   const roomId = Math.random().toString(36).substring(2, 8).toUpperCase();
-  console.log("Creating room:", newRoom.value);
-
-  // Reset form and close modal
-  newRoom.value = {
-    name: "",
-    description: "",
-    maxParticipants: 10,
-  };
+  console.log("Creating room:", values);
   showCreateRoom.value = false;
-
-  // Navigate to new room
   navigateTo(`/meeting/${roomId}`);
-};
+});
 
-const joinRoomById = () => {
-  if (joinRoomId.value.length === 6) {
-    navigateTo(`/meeting/${joinRoomId.value}`);
-  }
-};
+const handleJoinRoom = joinRoomForm.handleSubmit(async (values) => {
+  navigateTo(`/meeting/${values.roomId}`);
+});
+
+function joinRoom(room: (typeof mockRooms)[0]) {
+  navigateTo(`/meeting/${room.id}`);
+}
+
+function previewRoom(room: (typeof mockRooms)[0]) {
+  console.log("Preview room:", room);
+}
 </script>
+
+<template>
+  <div>
+    <!-- Hero Section -->
+    <section class="text-center mb-10">
+      <h1
+        class="scroll-m-20 text-4xl font-extrabold tracking-tight lg:text-5xl"
+      >
+        欢迎来到会议室
+      </h1>
+      <p
+        class="text-xl text-muted-foreground leading-7 mt-6 mb-6 max-w-2xl mx-auto"
+      >
+        与您的团队即时连接。加入现有房间或创建您自己的会议空间。
+      </p>
+
+      <div
+        class="flex flex-col sm:flex-row gap-3 justify-center items-center mb-6"
+      >
+        <Button size="lg" @click="showCreateRoom = true">
+          <Icon name="lucide:plus" class="w-5 h-5 mr-2" />
+          创建新房间
+        </Button>
+        <Button variant="outline" size="lg" @click="showJoinRoom = true">
+          <Icon name="lucide:log-in" class="w-5 h-5 mr-2" />
+          通过ID加入
+        </Button>
+      </div>
+    </section>
+
+    <!-- Room Statistics -->
+    <section class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-6">
+      <Card class="hover:shadow-lg transition-all duration-300">
+        <CardContent class="p-6">
+          <div class="flex items-center justify-between">
+            <div>
+              <small class="text-muted-foreground font-medium">房间总数</small>
+              <p class="text-2xl font-bold">{{ totalRooms }}</p>
+            </div>
+            <div
+              class="w-12 h-12 bg-muted rounded-lg flex items-center justify-center"
+            >
+              <Icon name="lucide:home" class="w-6 h-6 text-muted-foreground" />
+            </div>
+          </div>
+        </CardContent>
+      </Card>
+
+      <Card class="hover:shadow-lg transition-all duration-300">
+        <CardContent class="p-6">
+          <div class="flex items-center justify-between">
+            <div>
+              <small class="text-muted-foreground font-medium">活跃会议</small>
+              <p class="text-2xl font-bold">{{ activeMeetings }}</p>
+            </div>
+            <div
+              class="w-12 h-12 bg-muted rounded-lg flex items-center justify-center"
+            >
+              <Icon name="lucide:video" class="w-6 h-6 text-muted-foreground" />
+            </div>
+          </div>
+        </CardContent>
+      </Card>
+
+      <Card class="hover:shadow-lg transition-all duration-300">
+        <CardContent class="p-6">
+          <div class="flex items-center justify-between">
+            <div>
+              <small class="text-muted-foreground font-medium">参与人数</small>
+              <p class="text-2xl font-bold">{{ totalParticipants }}</p>
+            </div>
+            <div
+              class="w-12 h-12 bg-muted rounded-lg flex items-center justify-center"
+            >
+              <Icon name="lucide:users" class="w-6 h-6 text-muted-foreground" />
+            </div>
+          </div>
+        </CardContent>
+      </Card>
+
+      <Card class="hover:shadow-lg transition-all duration-300">
+        <CardContent class="p-6">
+          <div class="flex items-center justify-between">
+            <div>
+              <small class="text-muted-foreground font-medium">可用席位</small>
+              <p class="text-2xl font-bold">{{ availableSlots }}</p>
+            </div>
+            <div
+              class="w-12 h-12 bg-muted rounded-lg flex items-center justify-center"
+            >
+              <Icon
+                name="lucide:users-round"
+                class="w-6 h-6 text-muted-foreground"
+              />
+            </div>
+          </div>
+        </CardContent>
+      </Card>
+    </section>
+
+    <!-- Filters and Search -->
+    <section class="mb-6">
+      <div class="flex flex-col md:flex-row gap-3 items-center justify-between">
+        <div class="relative w-full md:w-80">
+          <Icon
+            name="lucide:search"
+            class="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-muted-foreground"
+          />
+          <Input
+            v-model="searchQuery"
+            type="text"
+            placeholder="搜索房间..."
+            class="pl-10"
+          />
+        </div>
+
+        <div class="flex items-center space-x-3">
+          <Select v-model="statusFilter">
+            <SelectTrigger class="w-[180px]">
+              <SelectValue placeholder="选择状态" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectGroup>
+                <SelectItem value="all">全部状态</SelectItem>
+                <SelectItem value="active">进行中</SelectItem>
+                <SelectItem value="waiting">等待中</SelectItem>
+              </SelectGroup>
+            </SelectContent>
+          </Select>
+
+          <Select v-model="sortBy">
+            <SelectTrigger class="w-[180px]">
+              <SelectValue placeholder="排序方式" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectGroup>
+                <SelectItem value="recent">最新</SelectItem>
+                <SelectItem value="participants">参与人数</SelectItem>
+                <SelectItem value="name">按名称</SelectItem>
+              </SelectGroup>
+            </SelectContent>
+          </Select>
+        </div>
+      </div>
+    </section>
+
+    <!-- Room Grid -->
+    <section>
+      <div class="flex items-center justify-between mb-6">
+        <h2 class="text-2xl font-bold text-slate-900">可用房间</h2>
+        <p class="text-slate-600">找到 {{ filteredRooms.length }} 个房间</p>
+      </div>
+
+      <div v-if="filteredRooms.length === 0" class="text-center py-12">
+        <div
+          class="w-24 h-24 bg-muted rounded-full flex items-center justify-center mx-auto mb-4"
+        >
+          <Icon
+            name="lucide:search-x"
+            class="w-12 h-12 text-muted-foreground"
+          />
+        </div>
+        <h3 class="text-lg font-semibold mb-2">未找到房间</h3>
+        <p class="text-muted-foreground mb-6">
+          请尝试调整搜索条件或创建新房间。
+        </p>
+        <Button @click="showCreateRoom = true"> 创建您的第一个房间 </Button>
+      </div>
+
+      <div v-else class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <RoomCard
+          v-for="room in filteredRooms"
+          :key="room.id"
+          :room="room"
+          @join="joinRoom"
+          @preview="previewRoom"
+        />
+      </div>
+    </section>
+
+    <!-- Create Room Modal -->
+    <Dialog v-model:open="showCreateRoom">
+      <DialogContent class="sm:max-w-md">
+        <DialogHeader>
+          <DialogTitle>创建新房间</DialogTitle>
+        </DialogHeader>
+
+        <form class="space-y-3" @submit="handleCreateRoom">
+          <FormField v-slot="{ componentField }" name="name">
+            <FormItem>
+              <FormLabel>房间名称</FormLabel>
+              <FormControl>
+                <Input
+                  type="text"
+                  placeholder="输入房间名称"
+                  v-bind="componentField"
+                />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          </FormField>
+
+          <FormField v-slot="{ componentField }" name="description">
+            <FormItem>
+              <FormLabel>描述（可选）</FormLabel>
+              <FormControl>
+                <Textarea
+                  rows="3"
+                  placeholder="会议的简要描述"
+                  v-bind="componentField"
+                />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          </FormField>
+
+          <FormField v-slot="{ componentField }" name="maxParticipants">
+            <FormItem>
+              <FormLabel>最大参与人数</FormLabel>
+              <Select v-bind="componentField">
+                <FormControl>
+                  <SelectTrigger>
+                    <SelectValue placeholder="选择人数" />
+                  </SelectTrigger>
+                </FormControl>
+                <SelectContent>
+                  <SelectGroup>
+                    <SelectItem :value="5">5 人</SelectItem>
+                    <SelectItem :value="10">10 人</SelectItem>
+                    <SelectItem :value="25">25 人</SelectItem>
+                    <SelectItem :value="50">50 人</SelectItem>
+                  </SelectGroup>
+                </SelectContent>
+              </Select>
+              <FormMessage />
+            </FormItem>
+          </FormField>
+
+          <DialogFooter class="flex gap-3">
+            <Button
+              type="button"
+              variant="outline"
+              @click="showCreateRoom = false"
+            >
+              取消
+            </Button>
+            <Button type="submit"> 创建房间 </Button>
+          </DialogFooter>
+        </form>
+      </DialogContent>
+    </Dialog>
+
+    <!-- Join Room Modal -->
+    <Dialog v-model:open="showJoinRoom">
+      <DialogContent class="sm:max-w-md">
+        <DialogHeader>
+          <DialogTitle>加入房间</DialogTitle>
+        </DialogHeader>
+
+        <form class="space-y-3" @submit="handleJoinRoom">
+          <FormField v-slot="{ componentField }" name="roomId">
+            <FormItem>
+              <FormLabel>房间 ID</FormLabel>
+              <FormControl>
+                <Input
+                  type="text"
+                  class="font-mono"
+                  placeholder="输入6位房间ID"
+                  maxlength="6"
+                  v-bind="componentField"
+                />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          </FormField>
+
+          <DialogFooter class="flex gap-3">
+            <Button
+              type="button"
+              variant="outline"
+              @click="showJoinRoom = false"
+            >
+              取消
+            </Button>
+            <Button type="submit"> 加入房间 </Button>
+          </DialogFooter>
+        </form>
+      </DialogContent>
+    </Dialog>
+  </div>
+</template>

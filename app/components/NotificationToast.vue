@@ -3,10 +3,10 @@
     <div
       v-for="notification in notifications"
       :key="notification.id"
-      class="bg-slate-800/95 backdrop-blur-sm border border-slate-700 rounded-xl shadow-2xl p-4 min-w-80 max-w-sm"
+      class="bg-card border border-border rounded-lg shadow-lg p-4 min-w-80 max-w-sm"
       :class="getNotificationClasses(notification.type)"
     >
-      <div class="flex items-start space-x-3">
+      <div class="flex items-start space-x-2">
         <div class="flex-shrink-0">
           <div
             class="w-8 h-8 rounded-full flex items-center justify-center"

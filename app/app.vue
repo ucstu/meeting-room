@@ -1,20 +1,13 @@
 <script lang="ts" setup>
-if (import.meta.env.PROD) {
-  useHead(
-    {
-      script: [
-        {
-          src: "/cdn-cgi/challenge-platform/scripts/jsd/main.js",
-          crossorigin: "anonymous",
-          referrerpolicy: "origin",
-        },
-      ],
-    },
-    { mode: "client" },
-  );
-}
+useSeoMeta({
+  titleTemplate: "%s - Meeting Room",
+  description:
+    "Meeting Room 是一个在线会议平台，提供快速、便捷的会议管理和参与体验。",
+});
 </script>
 
 <template>
-  <NuxtPage />
+  <NuxtLayout>
+    <NuxtPage />
+  </NuxtLayout>
 </template>

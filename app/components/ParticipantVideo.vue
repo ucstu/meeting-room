@@ -1,8 +1,8 @@
 <template>
   <div class="relative group">
     <div
-      class="relative bg-slate-900 rounded-xl overflow-hidden aspect-video cursor-pointer hover:ring-2 hover:ring-blue-500 transition-all"
-      :class="{ 'ring-2 ring-blue-500': isActive }"
+      class="relative bg-muted rounded-lg overflow-hidden aspect-video cursor-pointer hover:ring-2 hover:ring-ring transition-all"
+      :class="{ 'ring-2 ring-ring': isActive }"
       @click="$emit('click')"
     >
       <!-- Video Stream -->
@@ -18,15 +18,15 @@
       <!-- Avatar when video is disabled -->
       <div
         v-else
-        class="w-full h-full flex items-center justify-center bg-gradient-to-br from-blue-500 to-purple-600"
+        class="w-full h-full flex items-center justify-center bg-muted"
       >
         <div class="text-center">
           <div
-            class="w-16 h-16 bg-white/20 backdrop-blur-sm rounded-full flex items-center justify-center mx-auto mb-2"
+            class="w-16 h-16 bg-background border-2 border-border rounded-full flex items-center justify-center mx-auto mb-2"
           >
-            <Icon name="lucide:user" class="w-8 h-8 text-white" />
+            <Icon name="lucide:user" class="w-8 h-8 text-muted-foreground" />
           </div>
-          <p class="text-white text-sm font-medium">
+          <p class="text-foreground text-sm font-medium">
             {{ participant.name }}
           </p>
         </div>
@@ -34,7 +34,7 @@
 
       <!-- Participant Info Overlay -->
       <div
-        class="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity"
+        class="absolute inset-0 bg-gradient-to-t from-background/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity"
       />
 
       <div
@@ -42,13 +42,13 @@
       >
         <div class="flex items-center space-x-2">
           <span
-            class="text-white text-sm font-medium bg-black/60 backdrop-blur-sm px-3 py-1 rounded-full"
+            class="text-foreground text-sm font-medium bg-background/80 backdrop-blur-sm px-3 py-1 rounded-md"
           >
             {{ participant.name }}
           </span>
           <span
             v-if="participant.isHost"
-            class="px-2 py-1 bg-blue-600 text-xs font-medium text-white rounded-full"
+            class="px-2 py-1 bg-primary text-xs font-medium text-primary-foreground rounded-md"
           >
             Host
           </span>
@@ -57,7 +57,7 @@
         <div class="flex items-center space-x-2">
           <!-- Audio Status -->
           <div
-            class="w-8 h-8 rounded-full flex items-center justify-center backdrop-blur-sm"
+            class="w-8 h-8 rounded-md flex items-center justify-center backdrop-blur-sm"
             :class="
               participant.audioEnabled ? 'bg-green-600/80' : 'bg-red-600/80'
             "
