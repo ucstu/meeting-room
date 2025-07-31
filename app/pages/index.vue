@@ -355,6 +355,12 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { computed, ref } from "vue";
+
+// 页面元数据
+definePageMeta({
+  title: "房间列表",
+});
+
 // Sample data - in real app this would come from API
 const mockRooms = [
   {

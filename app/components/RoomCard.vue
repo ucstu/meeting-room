@@ -411,9 +411,4 @@ const handleCreateRoom = (roomData: {
   console.log("Creating room:", roomData);
   navigateTo(`/meeting/${roomId}`);
 };
-
-// 页面元数据
-definePageMeta({
-  title: "房间列表",
-});
 </script>

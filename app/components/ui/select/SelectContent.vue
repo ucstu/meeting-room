@@ -3,11 +3,12 @@ import type { HTMLAttributes } from "vue";
 import { reactiveOmit } from "@vueuse/core";
 import {
   SelectContent,
+  type SelectContentEmits,
+  type SelectContentProps,
   SelectPortal,
   SelectViewport,
   useForwardPropsEmits,
 } from "reka-ui";
-import type { SelectContentEmits, SelectContentProps } from "reka-ui";
 import { cn } from "@/lib/utils";
 import { SelectScrollDownButton, SelectScrollUpButton } from ".";
 

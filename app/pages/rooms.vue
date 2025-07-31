@@ -289,6 +289,7 @@
 <script setup lang="ts">
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+
 // 模拟房间数据
 const mockRooms = [
   {

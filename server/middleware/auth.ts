@@ -1,4 +1,11 @@
+const BackendPaths = ["/api", "/ws"];
+
 export default defineEventHandler(async (event) => {
+  const url = getRequestURL(event);
+  if (!BackendPaths.some((path) => url.pathname.startsWith(path))) {
+    return;
+  }
+
   const drizzle = useDrizzle();
   const session = await requireUserSession(event);
 
