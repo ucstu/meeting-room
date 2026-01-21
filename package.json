@@ -63,7 +63,7 @@
     "typescript": "^5.8.3",
     "vite-plugin-devtools-json": "^0.2.1",
     "vue-tsc": "^2.2.12",
-    "wrangler": "^4.24.0"
+    "wrangler": "^4.59.1"
   },
   "packageManager": "pnpm@9.15.0",
   "pnpm": {
